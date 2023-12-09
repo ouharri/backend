@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_DB=aftas
+      - POSTGRES_PASSWORD=Youcode@2023
+      - POSTGRES_USER=postgres
+      - PGDATA=/data/postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: volume
+        source: postgres-db
+        target: /var/lib/postgresql/data
+    networks:
+      - aftas
+
+  app:
+    container_name: aftas
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+    restart: on-failure
+    networks:
+      - aftas
+
+networks:
+  marjane:
+    name: aftas
+    driver: bridge
+
+volumes:
+  postgres-db:
+    driver: local
