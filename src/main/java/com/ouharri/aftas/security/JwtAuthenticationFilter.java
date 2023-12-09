@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.security;
 
 import com.ouharri.aftas.repositories.TokenRepository;
 import jakarta.servlet.FilterChain;

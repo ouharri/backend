@@ -1,6 +1,6 @@
 package com.ouharri.aftas.config;
 
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.entities.User;
 import io.micrometer.common.lang.NonNullApi;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

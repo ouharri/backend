@@ -1,6 +1,6 @@
-package com.ouharri.aftas.entities;
+package com.ouharri.aftas.model.entities;
 
-import com.ouharri.aftas.enums.TokenType;
+import com.ouharri.aftas.model.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 

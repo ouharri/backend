@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

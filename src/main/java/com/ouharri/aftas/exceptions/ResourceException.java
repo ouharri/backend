@@ -1,6 +1,6 @@
 package com.ouharri.aftas.exceptions;
 
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.entities.User;
 
 /**
  * The parent for all exceptions, associated with resources, such as {@link User} etc.

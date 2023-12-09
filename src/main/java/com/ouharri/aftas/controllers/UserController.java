@@ -1,7 +1,7 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.dto.ChangePasswordRequest;
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.dto.ChangePasswordRequest;
+import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.services.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

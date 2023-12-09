@@ -1,7 +1,7 @@
 package com.ouharri.aftas.services.impl;
 
-import com.ouharri.aftas.dto.ChangePasswordRequest;
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.dto.ChangePasswordRequest;
+import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,8 +1,8 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.dto.AuthenticationRequest;
-import com.ouharri.aftas.dto.AuthenticationResponse;
-import com.ouharri.aftas.dto.RegisterRequest;
+import com.ouharri.aftas.model.dto.AuthenticationRequest;
+import com.ouharri.aftas.model.dto.AuthenticationResponse;
+import com.ouharri.aftas.model.dto.RegisterRequest;
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.services.spec.IAuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;

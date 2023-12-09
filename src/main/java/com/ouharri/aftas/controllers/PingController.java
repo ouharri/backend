@@ -1,9 +1,9 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.config.JwtService;
-import com.ouharri.aftas.enums.Role;
+import com.ouharri.aftas.security.JwtService;
+import com.ouharri.aftas.model.enums.Role;
 import com.ouharri.aftas.exceptions.ResourceNotFoundException;
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.services.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.ouharri.aftas.exceptions;
 
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.entities.User;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;

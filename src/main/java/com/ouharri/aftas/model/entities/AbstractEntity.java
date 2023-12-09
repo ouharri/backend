@@ -1,4 +1,4 @@
-package com.ouharri.aftas.entities;
+package com.ouharri.aftas.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;

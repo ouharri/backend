@@ -1,14 +1,14 @@
 package com.ouharri.aftas.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ouharri.aftas.config.JwtService;
-import com.ouharri.aftas.dto.AuthenticationRequest;
-import com.ouharri.aftas.dto.AuthenticationResponse;
-import com.ouharri.aftas.dto.RegisterRequest;
-import com.ouharri.aftas.enums.Role;
-import com.ouharri.aftas.enums.TokenType;
-import com.ouharri.aftas.models.Token;
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.security.JwtService;
+import com.ouharri.aftas.model.dto.AuthenticationRequest;
+import com.ouharri.aftas.model.dto.AuthenticationResponse;
+import com.ouharri.aftas.model.dto.RegisterRequest;
+import com.ouharri.aftas.model.enums.Role;
+import com.ouharri.aftas.model.enums.TokenType;
+import com.ouharri.aftas.model.entities.Token;
+import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.repositories.TokenRepository;
 import com.ouharri.aftas.repositories.UserRepository;
 import com.ouharri.aftas.services.spec.IAuthenticationService;

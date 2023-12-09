@@ -1,8 +1,8 @@
-package com.ouharri.aftas.entities;
+package com.ouharri.aftas.model.entities;
 
-import com.ouharri.aftas.enums.Gender;
-import com.ouharri.aftas.enums.Role;
-import com.ouharri.aftas.enums.Sex;
+import com.ouharri.aftas.model.enums.Gender;
+import com.ouharri.aftas.model.enums.Role;
+import com.ouharri.aftas.model.enums.Sex;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

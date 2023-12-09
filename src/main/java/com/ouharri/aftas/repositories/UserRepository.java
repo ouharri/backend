@@ -1,6 +1,6 @@
 package com.ouharri.aftas.repositories;
 
-import com.ouharri.aftas.models.User;
+import com.ouharri.aftas.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

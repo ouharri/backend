@@ -1,4 +1,4 @@
-package com.ouharri.aftas.enums;
+package com.ouharri.aftas.model.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

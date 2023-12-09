@@ -1,4 +1,4 @@
-package com.ouharri.aftas.dto;
+package com.ouharri.aftas.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

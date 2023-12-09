@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
