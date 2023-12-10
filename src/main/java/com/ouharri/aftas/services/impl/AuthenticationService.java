@@ -1,25 +1,30 @@
 package com.ouharri.aftas.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ouharri.aftas.security.JwtService;
-import com.ouharri.aftas.model.dto.AuthenticationRequest;
-import com.ouharri.aftas.model.dto.AuthenticationResponse;
-import com.ouharri.aftas.model.dto.RegisterRequest;
-import com.ouharri.aftas.model.enums.Role;
-import com.ouharri.aftas.model.enums.TokenType;
+import com.ouharri.aftas.exceptions.ResourceNotFoundException;
+import com.ouharri.aftas.model.dto.auth.AuthenticationRequest;
+import com.ouharri.aftas.model.dto.auth.AuthenticationResponse;
+import com.ouharri.aftas.model.dto.auth.RegisterRequest;
 import com.ouharri.aftas.model.entities.Token;
 import com.ouharri.aftas.model.entities.User;
+import com.ouharri.aftas.model.enums.Role;
+import com.ouharri.aftas.model.enums.TokenType;
 import com.ouharri.aftas.repositories.TokenRepository;
 import com.ouharri.aftas.repositories.UserRepository;
+import com.ouharri.aftas.security.JwtService;
 import com.ouharri.aftas.services.spec.IAuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
 
@@ -29,7 +34,9 @@ import java.io.IOException;
  *
  * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  */
+@Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
     private final JwtService jwtService;
@@ -69,12 +76,20 @@ public class AuthenticationService implements IAuthenticationService {
      * @return AuthenticationResponse containing new access and refresh tokens
      */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        } catch (BadCredentialsException ex) {
+            log.error("Authentication failed for user: " + request.getEmail(), ex);
+            throw new ResourceNotFoundException("Invalid credentials");
+        } catch (AuthenticationException ex) {
+            log.error("Authentication failed for user: " + request.getEmail(), ex);
+            throw new ResourceNotFoundException("Authentication failed");
+        }
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
