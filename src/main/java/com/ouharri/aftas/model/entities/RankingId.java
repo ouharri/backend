@@ -16,10 +16,10 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class RankingId implements Serializable {
     @ManyToOne
-    @JoinColumn(name = "competition_id", referencedColumnName = "id")
+    @JoinColumn(name = "competition_id")
     private Competition competition;
 
     @ManyToOne
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    @JoinColumn(name = "member_id")
     private Member member;
 }
