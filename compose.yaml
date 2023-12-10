@@ -1,6 +1,7 @@
 services:
   postgres:
     image: 'postgres:latest'
+    container_name: database
     environment:
       - POSTGRES_DB=aftas
       - POSTGRES_PASSWORD=Youcode@2023
@@ -22,7 +23,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "8081:8083"
     depends_on:
       - postgres
     restart: on-failure
@@ -30,7 +31,7 @@ services:
       - aftas
 
 networks:
-  marjane:
+  aftas:
     name: aftas
     driver: bridge
 
