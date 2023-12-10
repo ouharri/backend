@@ -65,15 +65,15 @@ public class UserService {
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
-        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.currentPassword(), user.getPassword())) {
             throw new IllegalStateException("Wrong password");
         }
 
-        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+        if (!request.newPassword().equals(request.confirmationPassword())) {
             throw new IllegalStateException("Passwords are not the same");
         }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
 
         repository.save(user);
     }
