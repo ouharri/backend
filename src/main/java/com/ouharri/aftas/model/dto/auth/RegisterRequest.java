@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto;
+package com.ouharri.aftas.model.dto.auth;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
@@ -10,17 +10,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * DTO class representing a user registration request.
+ * Contains fields for the first name, last name, email, password, and confirmation password.
+ *
+ * @author Ouharri Outman
+ * @version 1.0
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRequest {
-  @NotNull(message = "FirstName must be present")
-  @Size(min = 1, message = "Firstname cannot be empty")
-  @Size(max = 30, message = "Firstname is too long")
+  @NotNull(message = "First name must be present")
+  @Size(min = 1, message = "First name cannot be empty")
+  @Size(max = 30, message = "First name is too long")
   private String firstname;
 
-  @Size(max = 30, message = "LastName is too long")
+  @Size(max = 30, message = "Last name is too long")
   private String lastname;
 
   @Email(message = "Email was not provided")
@@ -31,4 +39,8 @@ public class RegisterRequest {
   @NotEmpty(message = "Password cannot be empty")
   @Size(min = 8, message = "Password is too short")
   private String password;
+
+  @NotEmpty(message = "Password confirmation cannot be empty")
+  @Size(min = 8, message = "Password confirmation is too short")
+  private String confirmationPassword;
 }
