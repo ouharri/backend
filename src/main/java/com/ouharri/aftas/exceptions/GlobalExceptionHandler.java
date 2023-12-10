@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.orm.jpa.JpaSystemException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,7 +31,7 @@ import java.util.stream.Collectors;
 /**
  * Global exception handler for handling various exceptions in the API.
  *
- * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  */
 @Slf4j
 @ControllerAdvice
@@ -41,9 +43,11 @@ public class GlobalExceptionHandler {
      * Handle HttpMessageNotReadableException and return a proper API error response.
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<ApiErrorFactory> handleHttpMessageNotReadable(
-            HttpMessageNotReadableException ex, HttpStatus status) {
-        ApiErrorFactory apiError = new ApiErrorFactory(status,
+            HttpMessageNotReadableException ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.BAD_REQUEST,
                 List.of("Malformed JSON request"), ex);
         log.error("Handling HttpMessageNotReadableException", ex);
         return buildResponseEntity(apiError);
@@ -54,6 +58,7 @@ public class GlobalExceptionHandler {
      * Handle EntityNotFoundException and return a proper API error response.
      */
     @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<ApiErrorFactory> handleEntityNotFound(EntityNotFoundException ex) {
         ApiErrorFactory apiError = new ApiErrorFactory(
                 HttpStatus.NOT_FOUND,
@@ -67,8 +72,8 @@ public class GlobalExceptionHandler {
     /**
      * Handle MethodArgumentNotValidException and return a map of validation errors.
      */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<ApiSubError> subErrors = new ArrayList<>();
 
@@ -96,8 +101,8 @@ public class GlobalExceptionHandler {
     /**
      * Handle generic exceptions and return a proper API error response.
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ApiErrorFactory> handleExceptions(Exception ex) {
         ApiErrorFactory apiError = new ApiErrorFactory(
                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -108,9 +113,11 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-
+    /**
+     * Handle exceptions related to JWT processing (e.g., MalformedJwtException, SignatureException, JwtException).
+     */
     @ExceptionHandler({MalformedJwtException.class, SignatureException.class, JwtException.class, JpaSystemException.class})
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ApiErrorFactory> handleMalformedJwtException(Exception ex) {
         ApiErrorFactory apiError = new ApiErrorFactory(
                 HttpStatus.BAD_REQUEST,
@@ -120,10 +127,38 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    /**
+     * Handle BadCredentialsException and return a proper API error response.
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<ApiErrorFactory> handleBadCredentialsException(Exception ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.BAD_REQUEST,
+                List.of(ex.getLocalizedMessage())
+        );
+        log.error("Handling BadCredentials exception", ex);
+        return buildResponseEntity(apiError);
+    }
+
+    /**
+     * Handle AuthenticationException and return a proper API error response.
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ApiErrorFactory> handleAuthenticationException(Exception ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.UNAUTHORIZED,
+                List.of(ex.getLocalizedMessage())
+        );
+        log.error("Handling Authentication exception", ex);
+        return buildResponseEntity(apiError);
+    }
 
     /**
      * Handle ConstraintViolationException and return a proper API error response.
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
@@ -140,12 +175,16 @@ public class GlobalExceptionHandler {
                         .collect(Collectors.toList()),
                 ex, subErrors
         );
-
         log.error("Handling ConstraintViolationException", ex);
         return buildResponseEntity(apiError);
     }
 
-
+    /**
+     * Builds a ResponseEntity with the given ApiErrorFactory.
+     *
+     * @param apiError the ApiErrorFactory to include in the ResponseEntity
+     * @return a ResponseEntity instance
+     */
     private ResponseEntity<ApiErrorFactory> buildResponseEntity(ApiErrorFactory apiError) {
         return new ResponseEntity<>(apiError, apiError.status());
     }
