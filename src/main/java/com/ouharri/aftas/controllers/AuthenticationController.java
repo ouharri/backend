@@ -4,11 +4,12 @@ import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.model.dto.auth.AuthenticationRequest;
 import com.ouharri.aftas.model.dto.auth.AuthenticationResponse;
 import com.ouharri.aftas.model.dto.auth.RegisterRequest;
-import com.ouharri.aftas.services.spec.IAuthenticationService;
+import com.ouharri.aftas.services.spec.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -24,12 +25,13 @@ import java.io.IOException;
  *
  * @author <a href="mailto:ouharri.outman@gmail.com">Ouharri Outman</a>
  */
+@Slf4j
 @Validated
 @RestController
-@RequestMapping("/api/v2/auth")
 @RequiredArgsConstructor
+@RequestMapping("/api/v2/auth")
 public class AuthenticationController {
-    private final IAuthenticationService service;
+    private final AuthenticationService service;
 
     /**
      * Endpoint for user registration.

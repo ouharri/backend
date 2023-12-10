@@ -3,10 +3,13 @@ package com.ouharri.aftas.services.impl;
 import com.ouharri.aftas.model.dto.auth.ChangePasswordRequest;
 import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.repositories.UserRepository;
+import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.security.Principal;
 import java.util.List;
@@ -19,10 +22,11 @@ import java.util.UUID;
  * @author Ouharri Outman
  * @version 1.0
  */
+@Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
-public class UserService {
-
+public class IUserService implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
 
@@ -58,8 +62,8 @@ public class UserService {
     /**
      * Changes the password of the currently logged-in user.
      *
-     * @param request        The change password request.
-     * @param connectedUser  The principal representing the currently connected user.
+     * @param request       The change password request.
+     * @param connectedUser The principal representing the currently connected user.
      * @throws IllegalStateException If the current password is incorrect, or if the new passwords do not match.
      */
     public void changePassword(ChangePasswordRequest request, Principal connectedUser) {

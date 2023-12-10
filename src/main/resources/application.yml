@@ -11,7 +11,7 @@ spring:
     change-log: classpath:db/db.changelog-master.yaml
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

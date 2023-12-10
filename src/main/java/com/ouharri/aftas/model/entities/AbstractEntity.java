@@ -1,8 +1,11 @@
 package com.ouharri.aftas.model.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,7 +25,10 @@ import java.util.UUID;
  */
 @Getter
 @Setter
+@SuperBuilder
 @MappedSuperclass
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class AbstractEntity implements Serializable {
 
     /**
@@ -53,6 +59,6 @@ public abstract class AbstractEntity implements Serializable {
      * The version of the entity, used for optimistic locking.
      */
     @Version
-    private Long version;
+    private Long version = 0L;
 
 }

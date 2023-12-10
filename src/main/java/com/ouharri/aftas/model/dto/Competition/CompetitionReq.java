@@ -12,7 +12,7 @@ import java.sql.Time;
 /**
  * DTO for {@link com.ouharri.aftas.model.entities.Competition}
  */
-public record CompetitionDto(
+public record CompetitionReq(
         @NotNull(message = "The date cannot be null.") Date date,
         @NotNull(message = "The start time cannot be null.") Time startTime,
         @NotNull(message = "The end time cannot be null.") Time endTime,

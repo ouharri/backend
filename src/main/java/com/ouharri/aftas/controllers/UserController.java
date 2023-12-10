@@ -2,10 +2,13 @@ package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.model.dto.auth.ChangePasswordRequest;
 import com.ouharri.aftas.model.entities.User;
-import com.ouharri.aftas.services.impl.UserService;
+import com.ouharri.aftas.services.impl.IUserService;
+import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -17,11 +20,12 @@ import java.util.List;
  * @author Ouharri Outman
  * @version 1.0
  */
+@Slf4j
+@Validated
 @RestController
-@RequestMapping("/api/v2/users")
 @RequiredArgsConstructor
+@RequestMapping("/api/v2/users")
 public class UserController {
-
     private final UserService service;
 
     /**
@@ -38,8 +42,8 @@ public class UserController {
     /**
      * Changes the password of the currently logged-in user.
      *
-     * @param request        The change password request.
-     * @param connectedUser  The principal representing the currently connected user.
+     * @param request       The change password request.
+     * @param connectedUser The principal representing the currently connected user.
      * @return ResponseEntity with HTTP status OK.
      */
     @PatchMapping

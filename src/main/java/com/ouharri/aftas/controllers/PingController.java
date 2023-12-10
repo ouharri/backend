@@ -1,13 +1,15 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.security.JwtService;
-import com.ouharri.aftas.model.enums.Role;
 import com.ouharri.aftas.exceptions.ResourceNotFoundException;
 import com.ouharri.aftas.model.entities.User;
-import com.ouharri.aftas.services.impl.UserService;
+import com.ouharri.aftas.model.enums.Role;
+import com.ouharri.aftas.security.JwtService;
+import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -20,11 +22,12 @@ import java.util.UUID;
  * @author Ouharri Outman
  * @version 1.0
  */
+@Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/ping")
 public class PingController {
-
     private final JwtService jwtService;
     private final UserService userService;
 

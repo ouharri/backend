@@ -10,7 +10,7 @@ import java.sql.Date;
 /**
  * DTO for {@link com.ouharri.aftas.model.entities.Member}
  */
-public record MemberDto(
+public record MemberReq(
         @NotBlank(message = "Name cannot be blank.") String name,
         @NotBlank(message = "Family name cannot be blank.") String familyName,
         @NotNull(message = "Accession date cannot be null.") Date accessionDate,

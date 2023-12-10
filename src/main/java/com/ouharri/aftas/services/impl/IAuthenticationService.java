@@ -12,7 +12,7 @@ import com.ouharri.aftas.model.enums.TokenType;
 import com.ouharri.aftas.repositories.TokenRepository;
 import com.ouharri.aftas.repositories.UserRepository;
 import com.ouharri.aftas.security.JwtService;
-import com.ouharri.aftas.services.spec.IAuthenticationService;
+import com.ouharri.aftas.services.spec.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ import java.io.IOException;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class AuthenticationService implements IAuthenticationService {
+public class IAuthenticationService implements AuthenticationService {
     private final JwtService jwtService;
     private final UserRepository repository;
     private final TokenRepository tokenRepository;

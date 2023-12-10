@@ -5,13 +5,15 @@ import com.ouharri.aftas.model.dto.auth.AuthenticationResponse;
 import com.ouharri.aftas.model.dto.auth.RegisterRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 /**
  * Interface for user authentication and token management.
  */
-public interface IAuthenticationService {
+@Service
+public interface AuthenticationService {
 
     /**
      * Registers a new user and generates access and refresh tokens.
