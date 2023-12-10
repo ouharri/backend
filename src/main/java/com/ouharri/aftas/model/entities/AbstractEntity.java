@@ -7,33 +7,52 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serial;
 import java.io.Serializable;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+/**
+ * Abstract base class for entities in the Aftas application.
+ * Provides common fields such as id, creation timestamp, and update timestamp.
+ * Subclasses should use the @MappedSuperclass annotation.
+ *
+ * @author Ouharri Outman
+ * @version 1.0
+ */
 @Getter
 @Setter
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+    /**
+     * The unique identifier for the entity.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    /**
+     * The timestamp indicating when the entity was created.
+     */
     @CreationTimestamp
     @Column(name = "created_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected String createdAt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis()).getTime());
+    protected String createdAt =
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
+    /**
+     * The timestamp indicating when the entity was last updated.
+     */
     @UpdateTimestamp
     @Column(name = "updated_at")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     protected LocalDateTime updatedAt;
+
+    /**
+     * The version of the entity, used for optimistic locking.
+     */
+    @Version
+    private Long version;
 
 }
