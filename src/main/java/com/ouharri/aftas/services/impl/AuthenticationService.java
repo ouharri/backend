@@ -53,10 +53,10 @@ public class AuthenticationService implements IAuthenticationService {
      */
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .firstname(request.firstname())
+                .lastname(request.lastname())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
                 .build();
         user.setRole(Role.USER);
         var savedUser = repository.save(user);
@@ -79,18 +79,18 @@ public class AuthenticationService implements IAuthenticationService {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
+                            request.email(),
+                            request.password()
                     )
             );
         } catch (BadCredentialsException ex) {
-            log.error("Authentication failed for user: " + request.getEmail(), ex);
-            throw new ResourceNotFoundException("Invalid credentials");
+            log.error("Authentication failed for user: " + request.email(), ex);
+            throw new BadCredentialsException("Invalid credentials");
         } catch (AuthenticationException ex) {
-            log.error("Authentication failed for user: " + request.getEmail(), ex);
+            log.error("Authentication failed for user: " + request.email(), ex);
             throw new ResourceNotFoundException("Authentication failed");
         }
-        var user = repository.findByEmail(request.getEmail())
+        var user = repository.findByEmail(request.email())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
