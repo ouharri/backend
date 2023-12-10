@@ -1,12 +1,12 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.exceptions;
 
-import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -20,15 +20,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.*;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import java.security.SignatureException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Global exception handler for handling various exceptions in the API.
  *
  * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  */
+@Slf4j
 @ControllerAdvice
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -38,10 +41,11 @@ public class GlobalExceptionHandler {
      * Handle HttpMessageNotReadableException and return a proper API error response.
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(
+    protected ResponseEntity<ApiErrorFactory> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpStatus status) {
-        String error = "Malformed JSON request";
-        ApiError apiError = new ApiError(status, error, ex);
+        ApiErrorFactory apiError = new ApiErrorFactory(status,
+                List.of("Malformed JSON request"), ex);
+        log.error("Handling HttpMessageNotReadableException", ex);
         return buildResponseEntity(apiError);
     }
 
@@ -50,8 +54,13 @@ public class GlobalExceptionHandler {
      * Handle EntityNotFoundException and return a proper API error response.
      */
     @ExceptionHandler(EntityNotFoundException.class)
-    protected ResponseEntity<Object> handleEntityNotFound(EntityNotFoundException ex) {
-        ApiError apiError = new ApiError(NOT_FOUND, ex.getMessage(), ex);
+    protected ResponseEntity<ApiErrorFactory> handleEntityNotFound(EntityNotFoundException ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.NOT_FOUND,
+                List.of(ex.getMessage()),
+                ex
+        );
+        log.error("Handling EntityNotFoundException", ex);
         return buildResponseEntity(apiError);
     }
 
@@ -72,8 +81,15 @@ public class GlobalExceptionHandler {
             }
         });
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Validation error", ex, subErrors);
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.BAD_REQUEST,
+                ex.getBindingResult().getAllErrors().stream()
+                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                        .collect(Collectors.toList()),
+                ex, subErrors
+        );
 
+        log.error("Handling MethodArgumentNotValidException", ex);
         return ResponseEntity.badRequest().body(apiError);
     }
 
@@ -82,68 +98,55 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleExceptions(Exception ex) {
-        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), ex);
+    public ResponseEntity<ApiErrorFactory> handleExceptions(Exception ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                List.of(ex.getLocalizedMessage()),
+                ex
+        );
+        log.error("Handling generic exception", ex);
         return buildResponseEntity(apiError);
     }
 
-    /**
-     * Handle ResourceNotCreatedException and return a map with an error message.
-     */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ResourceNotCreatedException.class)
-    public ResponseEntity<Object> handleValidationExistsException(ResourceNotCreatedException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", ex.getMessage());
-        return ResponseEntity.badRequest().body(errors);
+
+    @ExceptionHandler({MalformedJwtException.class, SignatureException.class, JwtException.class, JpaSystemException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ApiErrorFactory> handleMalformedJwtException(Exception ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.BAD_REQUEST,
+                List.of(ex.getLocalizedMessage())
+        );
+        log.error("Handling JWT-related exception", ex);
+        return buildResponseEntity(apiError);
     }
+
 
     /**
      * Handle ConstraintViolationException and return a proper API error response.
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Object> handleValidationError(ConstraintViolationException ex) {
+    public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
         List<ApiSubError> subErrors = new ArrayList<>();
-
-        constraintViolations.forEach(
-                violation -> subErrors.add(new ApiConstraintError(violation.getPropertyPath().toString(),
-                        violation.getMessage()))
+        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+            subErrors.add(new ApiValidationError(constraintViolation.getRootBeanClass().getSimpleName(),
+                    constraintViolation.getPropertyPath().toString(), constraintViolation.getInvalidValue(),
+                    constraintViolation.getMessage()));
+        }
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.BAD_REQUEST,
+                ex.getConstraintViolations().stream()
+                        .map(ConstraintViolation::getMessage)
+                        .collect(Collectors.toList()),
+                ex, subErrors
         );
 
-        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "Validation error", ex, subErrors);
-
-        return ResponseEntity.badRequest().body(apiError);
+        log.error("Handling ConstraintViolationException", ex);
+        return buildResponseEntity(apiError);
     }
 
-    /**
-     * Handle JpaSystemException and return a proper API error response.
-     */
-    @ExceptionHandler(JpaSystemException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Object> handleJpaSystemError(JpaSystemException ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + ex.getLocalizedMessage());
-    }
 
-    @ExceptionHandler(SignatureException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<Object> handleSignatureException(SignatureException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: " + ex.getLocalizedMessage());
-    }
-
-    @ExceptionHandler(JwtException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<Object> handleJwtException(JwtException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: " + ex.getLocalizedMessage());
-    }
-
-    @ExceptionHandler(MalformedJwtException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity<Object> handleMalformedJwtException(MalformedJwtException ex) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: " + ex.getLocalizedMessage());
-    }
-
-    private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
+    private ResponseEntity<ApiErrorFactory> buildResponseEntity(ApiErrorFactory apiError) {
         return new ResponseEntity<>(apiError, apiError.status());
     }
 }
