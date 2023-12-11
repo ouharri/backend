@@ -30,7 +30,7 @@ import java.util.UUID;
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-public abstract class _controller<RequestType extends Request, ResponseType extends Response, ServiceType extends _service<RequestType, ResponseType>> {
+public abstract class _Controller<RequestType extends Request, ResponseType extends Response, ServiceType extends _service<RequestType, ResponseType>> {
 
     @Autowired
     protected final ServiceType service;
