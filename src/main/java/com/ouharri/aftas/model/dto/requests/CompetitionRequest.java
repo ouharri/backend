@@ -1,19 +1,17 @@
-package com.ouharri.aftas.model.dto.Competition;
+package com.ouharri.aftas.model.dto.requests;
 
-import com.ouharri.aftas.model.dto.Address.AddressDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Time;
 
 /**
  * DTO for {@link com.ouharri.aftas.model.entities.Competition}
  */
-public record CompetitionReq(
+public record CompetitionRequest(
         @NotNull(message = "The date cannot be null.")
         Date date,
 
@@ -33,10 +31,10 @@ public record CompetitionReq(
         String location,
 
         @NotNull(message = "The address cannot be null.")
-        AddressDto address,
+        AddressRequest address,
 
         @Min(0)
         @NotNull(message = "The amount cannot be null.")
         Double amount
-) implements Serializable {
+) implements Request {
 }

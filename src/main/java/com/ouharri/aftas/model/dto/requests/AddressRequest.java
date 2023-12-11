@@ -1,16 +1,14 @@
-package com.ouharri.aftas.model.dto.Address;
+package com.ouharri.aftas.model.dto.requests;
 
 import com.ouharri.aftas.model.entities.Address;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
-
 /**
  * DTO for {@link Address}
  */
-public record AddressDto(
+public record AddressRequest(
         @Size(message = "Region name is too long", max = 30)
         String region,
 
@@ -34,5 +32,5 @@ public record AddressDto(
         @Min(message = "Invalid postal code", value = 1001)
         @Max(message = "Invalid postal code", value = 99999)
         Integer postalCode
-) implements Serializable {
+) implements Request {
 }

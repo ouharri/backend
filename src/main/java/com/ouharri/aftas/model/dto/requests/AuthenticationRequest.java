@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto.auth;
+package com.ouharri.aftas.model.dto.requests;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,9 +13,11 @@ import jakarta.validation.constraints.Size;
  */
 public record AuthenticationRequest(
         @Email(message = "Email should be valid")
-        @NotBlank(message = "Email is required") String email,
+        @NotBlank(message = "Email is required")
+        String email,
 
         @NotBlank(message = "Password is required")
-        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters") String password
-) {
+        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
+        String password
+) implements Request {
 }

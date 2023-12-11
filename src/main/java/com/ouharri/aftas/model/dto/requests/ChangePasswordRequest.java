@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto.auth;
+package com.ouharri.aftas.model.dto.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,10 +11,15 @@ import jakarta.validation.constraints.Size;
  * @version 1.0
  */
 public record ChangePasswordRequest(
-        @NotBlank(message = "Current password is required") String currentPassword,
+        @NotBlank(message = "Current password is required")
+        String currentPassword,
+
         @NotBlank(message = "New password is required")
-        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters") String newPassword,
+        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
+        String newPassword,
+
         @NotBlank(message = "Password confirmation is required")
-        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters") String confirmationPassword
-) {
+        @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
+        String confirmationPassword
+) implements Request {
 }
