@@ -1,7 +1,6 @@
-package com.ouharri.aftas.model.dto.Level;
+package com.ouharri.aftas.model.dto.responces;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ouharri.aftas.model.dto.AbstractResp;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LevelResp extends AbstractResp {
+public class LevelResponse extends AbstractResponse {
     @NotBlank(message = "Name cannot be blank.")
     private String name;
 

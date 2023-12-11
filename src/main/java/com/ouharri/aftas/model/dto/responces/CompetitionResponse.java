@@ -1,8 +1,7 @@
-package com.ouharri.aftas.model.dto.Competition;
+package com.ouharri.aftas.model.dto.responces;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ouharri.aftas.model.dto.AbstractResp;
-import com.ouharri.aftas.model.dto.Address.AddressDto;
+import com.ouharri.aftas.model.dto.requests.AddressRequest;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,7 +23,7 @@ import java.sql.Time;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CompetitionResp extends AbstractResp {
+public class CompetitionResponse extends AbstractResponse {
     @NotNull(message = "The date cannot be null.")
     private Date date;
 
@@ -42,7 +41,7 @@ public class CompetitionResp extends AbstractResp {
     private String location;
 
     @NotNull(message = "The address cannot be null.")
-    private AddressDto address;
+    private AddressRequest address;
 
     @NotNull(message = "The amount cannot be null.")
     private Double amount;

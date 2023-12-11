@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto.auth;
+package com.ouharri.aftas.model.dto.responces;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import jakarta.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationResponse implements Response {
   /**
    * Access token for authentication.
    */
