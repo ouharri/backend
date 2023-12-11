@@ -1,8 +1,6 @@
-package com.ouharri.aftas.model.dto.Fish;
+package com.ouharri.aftas.model.dto.responces;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.ouharri.aftas.model.dto.AbstractResp;
-import com.ouharri.aftas.model.dto.Level.LevelResp;
 import com.ouharri.aftas.model.entities.Fish;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,14 +19,12 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FishResp extends AbstractResp {
-
+public class FishResponse extends AbstractResponse {
     @NotBlank(message = "The name cannot be blank.")
     private String name;
 
     @NotNull(message = "The average weight cannot be null.")
     private Double averageWeight;
 
-    private LevelResp level;
-
+    private LevelResponse level;
 }
