@@ -9,6 +9,8 @@ import com.ouharri.aftas.repositories.CompetitionRepository;
 import com.ouharri.aftas.services.spec.CompetitionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -33,5 +35,10 @@ public class ICompetitionService implements CompetitionService {
             log.error("Error while creating Competition", e);
             throw new ResourceNotCreatedException(e.getMessage());
         }
+    }
+
+    public Page<CompetitionResp> getAllCompetitions(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(mapper::toResp);
     }
 }

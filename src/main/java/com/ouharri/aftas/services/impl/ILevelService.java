@@ -9,6 +9,8 @@ import com.ouharri.aftas.repositories.LevelRepository;
 import com.ouharri.aftas.services.spec.LevelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -34,4 +36,5 @@ public class ILevelService implements LevelService {
             throw new ResourceNotCreatedException(e.getMessage());
         }
     }
+
 }
