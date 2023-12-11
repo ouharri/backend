@@ -14,7 +14,6 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "fish")
