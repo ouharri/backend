@@ -1,6 +1,6 @@
 package com.ouharri.aftas.model.dto.requests;
 
-import com.ouharri.aftas.model.dto.responces.LevelResp;
+import com.ouharri.aftas.model.dto.responces.LevelResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,6 +15,6 @@ public record FishRequest(
         Double averageWeight,
 
         @NotNull
-        LevelResp level
+        LevelResponse level
 ) implements Request {
 }
