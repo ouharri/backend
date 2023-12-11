@@ -20,7 +20,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LevelResp extends AbstractResp {
-
     @NotBlank(message = "Name cannot be blank.")
     private String name;
 

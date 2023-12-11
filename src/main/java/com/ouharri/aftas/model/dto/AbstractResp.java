@@ -1,11 +1,14 @@
 package com.ouharri.aftas.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -19,7 +22,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AbstractResp implements Serializable {
     UUID id;
-    String createdAt;
-    LocalDateTime updatedAt;
+    Timestamp createdAt;
+    Timestamp updatedAt;
     Long version;
 }

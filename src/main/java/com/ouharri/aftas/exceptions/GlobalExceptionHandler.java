@@ -3,7 +3,6 @@ package com.ouharri.aftas.exceptions;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -70,10 +68,11 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handle MethodArgumentNotValidException and return a map of validation errors.
+     * Handle handleValidationExceptions and return a map of validation errors.
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<ApiSubError> subErrors = new ArrayList<>();
 
@@ -155,29 +154,29 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    /**
-     * Handle ConstraintViolationException and return a proper API error response.
-     */
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
-        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-        List<ApiSubError> subErrors = new ArrayList<>();
-        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-            subErrors.add(new ApiValidationError(constraintViolation.getRootBeanClass().getSimpleName(),
-                    constraintViolation.getPropertyPath().toString(), constraintViolation.getInvalidValue(),
-                    constraintViolation.getMessage()));
-        }
-        ApiErrorFactory apiError = new ApiErrorFactory(
-                HttpStatus.BAD_REQUEST,
-                ex.getConstraintViolations().stream()
-                        .map(ConstraintViolation::getMessage)
-                        .collect(Collectors.toList()),
-                ex, subErrors
-        );
-        log.error("Handling ConstraintViolationException", ex);
-        return buildResponseEntity(apiError);
-    }
+//    /**
+//     * Handle ConstraintViolationException and return a proper API error response.
+//     */
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(ConstraintViolationException.class)
+//    public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
+//        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+//        List<ApiSubError> subErrors = new ArrayList<>();
+//        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+//            subErrors.add(new ApiValidationError(constraintViolation.getRootBeanClass().getSimpleName(),
+//                    constraintViolation.getPropertyPath().toString(), constraintViolation.getInvalidValue(),
+//                    constraintViolation.getMessage()));
+//        }
+//        ApiErrorFactory apiError = new ApiErrorFactory(
+//                HttpStatus.BAD_REQUEST,
+//                ex.getConstraintViolations().stream()
+//                        .map(ConstraintViolation::getMessage)
+//                        .collect(Collectors.toList()),
+//                ex, subErrors
+//        );
+//        log.error("Handling ConstraintViolationException", ex);
+//        return buildResponseEntity(apiError);
+//    }
 
     /**
      * Builds a ResponseEntity with the given ApiErrorFactory.

@@ -14,9 +14,9 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "fish")
 public class Fish extends AbstractEntity {
     @NotBlank(message = "The name cannot be blank.")

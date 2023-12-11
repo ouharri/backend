@@ -11,8 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
@@ -43,17 +42,18 @@ public abstract class AbstractEntity implements Serializable {
      */
     @CreationTimestamp
     @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected String createdAt =
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    private Timestamp createdAt;
 
     /**
      * The timestamp indicating when the entity was last updated.
      */
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime updatedAt;
+    private Timestamp updatedAt;
 
     /**
      * The version of the entity, used for optimistic locking.

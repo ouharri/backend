@@ -2,7 +2,6 @@ package com.ouharri.aftas.model.dto.Fish;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.dto.AbstractResp;
-import com.ouharri.aftas.model.dto.Level.LevelReq;
 import com.ouharri.aftas.model.dto.Level.LevelResp;
 import com.ouharri.aftas.model.entities.Fish;
 import jakarta.validation.constraints.NotBlank;

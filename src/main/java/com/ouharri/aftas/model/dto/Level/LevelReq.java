@@ -14,5 +14,6 @@ import java.io.Serializable;
 public record LevelReq(
         @NotBlank(message = "Name cannot be blank.") String name,
         @NotBlank(message = "Description cannot be blank.") String description,
-        @NotNull(message = "Points cannot be null.") @Min(message = "The Points cannot be less than 0.", value = 0) @Positive Integer points) implements Serializable {
+        @NotNull(message = "Points cannot be null.") @Min(message = "The Points cannot be less than 0.", value = 0) @Positive Integer points
+) implements Serializable {
 }

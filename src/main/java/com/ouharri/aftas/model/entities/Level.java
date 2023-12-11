@@ -18,7 +18,6 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "level")
 public class Level extends AbstractEntity {
     @NotBlank(message = "Name cannot be blank.")

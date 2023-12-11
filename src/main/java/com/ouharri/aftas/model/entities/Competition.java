@@ -4,24 +4,25 @@ import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "competition")
 @Getter
 @Setter
-@Builder
+@ToString
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "competition")
 public class Competition extends AbstractEntity {
     @Pattern(regexp = "^[a-zA-Z]{3}-\\d{2}-\\d{2}-\\d{2}$", message = "The code must follow the specified format.")
-    private String code;
+    private String code = "ims-22-12-23";
 
     @NotNull(message = "The date cannot be null.")
     @Temporal(TemporalType.DATE)
@@ -42,10 +43,10 @@ public class Competition extends AbstractEntity {
     @NotBlank(message = "The location cannot be empty.")
     private String location;
 
-    @NotNull(message = "The address cannot be null.")
     @Valid
     @Embedded
-    private Address address;
+    @NotNull(message = "The address cannot be null.")
+    private Address address = new Address();
 
     @NotNull(message = "The amount cannot be null.")
     @DecimalMin(value = "0.0", inclusive = false, message = "The amount must be greater than 0.")
@@ -59,6 +60,7 @@ public class Competition extends AbstractEntity {
 
     @PrePersist
     private void generateCode() {
-        this.code = address.getCity().substring(0, 3) + date;
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
+        this.code = address.getCity().substring(0, 3) + "-" + sdf.format(date);
     }
 }
