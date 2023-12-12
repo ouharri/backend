@@ -2,9 +2,9 @@ package com.ouharri.aftas.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ouharri.aftas.exceptions.ResourceNotFoundException;
-import com.ouharri.aftas.model.dto.auth.AuthenticationRequest;
-import com.ouharri.aftas.model.dto.auth.AuthenticationResponse;
-import com.ouharri.aftas.model.dto.auth.RegisterRequest;
+import com.ouharri.aftas.model.dto.requests.AuthenticationRequest;
+import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
+import com.ouharri.aftas.model.dto.requests.RegisterRequest;
 import com.ouharri.aftas.model.entities.Token;
 import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.model.enums.Role;
@@ -36,7 +36,6 @@ import java.io.IOException;
  */
 @Slf4j
 @Service
-@Validated
 @RequiredArgsConstructor
 public class IAuthenticationService implements AuthenticationService {
     private final JwtService jwtService;
