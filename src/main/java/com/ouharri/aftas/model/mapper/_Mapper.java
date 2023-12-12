@@ -47,6 +47,9 @@ public interface _Mapper<ID, Req extends _Request, Res extends _Response, Entity
      * @return {@link Timestamp} object representing the creation timestamp.
      */
     default Timestamp mapCreatedAt(String createdAt) {
+        if (createdAt == null) {
+            return null;
+        }
         return Timestamp.valueOf(createdAt);
     }
 }
