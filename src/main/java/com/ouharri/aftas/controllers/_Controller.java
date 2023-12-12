@@ -1,9 +1,9 @@
 package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
-import com.ouharri.aftas.model.dto.requests.Request;
-import com.ouharri.aftas.model.dto.responces.Response;
-import com.ouharri.aftas.services.spec._service;
+import com.ouharri.aftas.model.dto.requests._Request;
+import com.ouharri.aftas.model.dto.responces._Response;
+import com.ouharri.aftas.services.spec._Service;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,11 +17,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Generic controller with CRUD operations for DTOs.
  *
+ * @param <ID>           The type of the identifier.
  * @param <RequestType>  The request DTO type.
  * @param <ResponseType> The response DTO type.
  * @param <ServiceType>  The service type implementing _service.
@@ -30,11 +30,19 @@ import java.util.UUID;
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-public abstract class _Controller<RequestType extends Request, ResponseType extends Response, ServiceType extends _service<RequestType, ResponseType>> {
+public abstract class _Controller<ID, RequestType extends _Request, ResponseType extends _Response, ServiceType extends _Service<ID, RequestType, ResponseType>> {
 
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     protected final ServiceType service;
 
+    /**
+     * Creates a new entity based on the provided request.
+     *
+     * @param request        The request DTO.
+     * @param bindingResult  The result of the validation.
+     * @return               ResponseEntity containing the created entity or a bad request if creation fails.
+     */
     @PostMapping
     public ResponseEntity<ResponseType> create(
             @Valid @RequestBody RequestType request,
@@ -50,20 +58,39 @@ public abstract class _Controller<RequestType extends Request, ResponseType exte
                 ResponseEntity.badRequest().build());
     }
 
+    /**
+     * Retrieves all entities with pagination.
+     *
+     * @param pageable  The pagination information.
+     * @return          ResponseEntity containing a page of entities.
+     */
     @GetMapping
     public ResponseEntity<Page<ResponseType>> getAll(Pageable pageable) {
         assert service != null;
         return ResponseEntity.ok(service.getAll(pageable));
     }
 
+    /**
+     * Retrieves an entity by its identifier.
+     *
+     * @param id  The identifier of the entity.
+     * @return    ResponseEntity containing the retrieved entity or not found response if the entity does not exist.
+     */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseType> getById(@PathVariable("id") UUID id) {
+    public ResponseEntity<ResponseType> getById(@PathVariable("id") ID id) {
         assert service != null;
         return service.getById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates an existing entity based on the provided request.
+     *
+     * @param request        The request DTO.
+     * @param bindingResult  The result of the validation.
+     * @return               ResponseEntity containing the updated entity or not found response if the update fails.
+     */
     @PutMapping
     public ResponseEntity<ResponseType> update(
             @Valid @RequestBody ResponseType request,
@@ -79,6 +106,13 @@ public abstract class _Controller<RequestType extends Request, ResponseType exte
                 ResponseEntity.notFound().build());
     }
 
+    /**
+     * Deletes an entity based on the provided request.
+     *
+     * @param request        The request DTO.
+     * @param bindingResult  The result of the validation.
+     * @return               ResponseEntity with no content if deletion is successful, or not found response if deletion fails.
+     */
     @DeleteMapping
     public ResponseEntity<Void> delete(
             @Valid @RequestBody ResponseType request,
@@ -89,7 +123,7 @@ public abstract class _Controller<RequestType extends Request, ResponseType exte
 
         assert service != null;
         if (service.delete(request)) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.notFound().build();
         }
