@@ -1,12 +1,11 @@
 package com.ouharri.aftas.services.spec;
 
-import com.ouharri.aftas.model.dto.requests.Request;
-import com.ouharri.aftas.model.dto.responces.Response;
+import com.ouharri.aftas.model.dto.requests._Request;
+import com.ouharri.aftas.model.dto.responces._Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Generic service interface with common CRUD operations.
@@ -14,7 +13,7 @@ import java.util.UUID;
  * @param <Req> The request DTO type.
  * @param <Res> The response DTO type.
  */
-public interface _service<Req extends Request, Res extends Response> {
+public interface _Service<ID,Req extends _Request, Res extends _Response> {
 
     /**
      * Retrieves all entities in a paginated form.
@@ -46,7 +45,7 @@ public interface _service<Req extends Request, Res extends Response> {
      * @param id Unique identifier of the entity.
      * @return Optional containing the response DTO of the found entity.
      */
-    Optional<Res> getById(UUID id);
+    Optional<Res> getById(ID id);
 
     /**
      * Deletes an entity based on the provided response DTO.
