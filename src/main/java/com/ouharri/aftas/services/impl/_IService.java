@@ -5,7 +5,7 @@ import com.ouharri.aftas.model.dto.requests._Request;
 import com.ouharri.aftas.model.dto.responces._Response;
 import com.ouharri.aftas.model.entities._Entity;
 import com.ouharri.aftas.model.mapper._Mapper;
-import com.ouharri.aftas.services.spec._service;
+import com.ouharri.aftas.services.spec._Service;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ import java.util.Optional;
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-public abstract class _IService<ID, Req extends _Request, Res extends _Response, Entity extends _Entity<ID>, Repository extends JpaRepository<Entity, ID>, Mapper extends _Mapper<ID, Req, Res, Entity>> implements _service<ID, Req, Res> {
+public abstract class _IService<ID, Req extends _Request, Res extends _Response, Entity extends _Entity<ID>, Repository extends JpaRepository<Entity, ID>, Mapper extends _Mapper<ID, Req, Res, Entity>> implements _Service<ID, Req, Res> {
 
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
