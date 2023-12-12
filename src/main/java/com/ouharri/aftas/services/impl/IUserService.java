@@ -1,6 +1,6 @@
 package com.ouharri.aftas.services.impl;
 
-import com.ouharri.aftas.model.dto.auth.ChangePasswordRequest;
+import com.ouharri.aftas.model.dto.requests.ChangePasswordRequest;
 import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.repositories.UserRepository;
 import com.ouharri.aftas.services.spec.UserService;
@@ -24,7 +24,6 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
-@Validated
 @RequiredArgsConstructor
 public class IUserService implements UserService {
     private final PasswordEncoder passwordEncoder;
