@@ -12,52 +12,94 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+/**
+ * Represents a competition organized by the Aftas sports club for underwater hunting.
+ * Extends the AbstractEntity class.
+ *
+ * @author ouharri
+ * @version 2.0
+ */
 @Getter
 @Setter
-@ToString
+@Entity
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "competition")
 public class Competition extends AbstractEntity {
+
+    /**
+     * The unique code associated with the competition.
+     * Follows the format: [city abbreviation]-[yy-MM-dd]
+     */
     @Pattern(regexp = "^[a-zA-Z]{3}-\\d{2}-\\d{2}-\\d{2}$", message = "The code must follow the specified format.")
     private String code = "ims-22-12-23";
 
+    /**
+     * The date of the competition.
+     */
     @NotNull(message = "The date cannot be null.")
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    /**
+     * The start time of the competition.
+     */
     @NotNull(message = "The start time cannot be null.")
     @Temporal(TemporalType.TIME)
     private Time startTime;
 
+    /**
+     * The end time of the competition.
+     */
     @NotNull(message = "The end time cannot be null.")
     @Temporal(TemporalType.TIME)
     private Time endTime;
 
+    /**
+     * The number of participants in the competition.
+     */
     @NotNull(message = "The number of participants cannot be null.")
     @Min(value = 0, message = "The number of participants must be at least 0.")
-    private Integer numberOfParticipants;
+    private int numberOfParticipants;
 
+    /**
+     * The location where the competition takes place.
+     */
     @NotBlank(message = "The location cannot be empty.")
     private String location;
 
+    /**
+     * The address associated with the competition.
+     */
     @Valid
     @Embedded
     @NotNull(message = "The address cannot be null.")
     private Address address = new Address();
 
+    /**
+     * The entry fee amount for the competition.
+     */
     @NotNull(message = "The amount cannot be null.")
     @DecimalMin(value = "0.0", inclusive = false, message = "The amount must be greater than 0.")
     private Double amount;
 
+    /**
+     * List of hunting records associated with the competition.
+     */
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
     private List<Hunting> huntings = new ArrayList<>();
 
+    /**
+     * List of rankings associated with the competition.
+     */
     @OneToMany(mappedBy = "competition")
     private List<Ranking> rankings = new ArrayList<>();
 
+    /**
+     * Generates a unique code for the competition based on the city abbreviation and date.
+     * This method is executed before the entity is persisted.
+     */
     @PrePersist
     private void generateCode() {
         SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd");
