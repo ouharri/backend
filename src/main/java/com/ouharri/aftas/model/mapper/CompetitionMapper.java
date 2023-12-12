@@ -1,19 +1,24 @@
 package com.ouharri.aftas.model.mapper;
 
-import com.ouharri.aftas.model.dto.Competition.CompetitionReq;
-import com.ouharri.aftas.model.dto.Competition.CompetitionResp;
+import com.ouharri.aftas.model.dto.requests.CompetitionRequest;
+import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
 import com.ouharri.aftas.model.entities.Competition;
-import org.mapstruct.*;
-import org.springframework.data.domain.Page;
+import org.mapstruct.InjectionStrategy;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
+import java.util.UUID;
+
+/**
+ * Mapper interface for converting between {@link Competition} DTOs and entities.
+ * Uses MapStruct for automatic mapping implementation.
+ */
 @Mapper(
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = MappingConstants.ComponentModel.SPRING
 )
-public interface CompetitionMapper {
-    Competition toEntity(CompetitionReq competitionReq);
-
-    CompetitionResp toResp(Competition competition);
+public interface CompetitionMapper extends _Mapper<UUID,CompetitionRequest, CompetitionResponse, Competition> {
 
 }
