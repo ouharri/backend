@@ -1,6 +1,7 @@
 package com.ouharri.aftas.model.dto.responces;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ouharri.aftas.model.entities.AbstractEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
- * DTO for {@link com.ouharri.aftas.model.entities.AbstractEntity}
+ * DTO for {@link AbstractEntity}
  */
 @Getter
 @Setter
@@ -19,7 +20,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AbstractResponse implements Response {
+public abstract class AbstractResponse implements _Response {
     UUID id;
     Timestamp createdAt;
     Timestamp updatedAt;
