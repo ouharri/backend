@@ -6,6 +6,7 @@ import com.ouharri.aftas.model.dto.responces._Response;
 import com.ouharri.aftas.model.entities._Entity;
 import com.ouharri.aftas.model.mapper._Mapper;
 import com.ouharri.aftas.services.spec._Service;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,7 @@ import java.util.Optional;
 @Validated
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
-public abstract class _IService<ID, Req extends _Request, Res extends _Response, Entity extends _Entity<ID>, Repository extends JpaRepository<Entity, ID>, Mapper extends _Mapper<ID, Req, Res, Entity>> implements _Service<ID, Req, Res> {
+public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Response, Entity extends _Entity<ID>, Repository extends JpaRepository<Entity, ID>, Mapper extends _Mapper<ID, Req, Res, Entity>> implements _Service<ID, Req, Res> {
 
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -60,7 +61,7 @@ public abstract class _IService<ID, Req extends _Request, Res extends _Response,
      * @return Optional containing the response DTO of the created entity.
      */
     @Transactional
-    public Optional<Res> create(Req request) {
+    public Optional<Res> create(@Valid Req request) {
         assert mapper != null;
         Entity entityToCreate = mapper.toEntityFromRequest(request);
         try {
@@ -80,7 +81,7 @@ public abstract class _IService<ID, Req extends _Request, Res extends _Response,
      * @return Optional containing the response DTO of the updated entity.
      */
     @Transactional
-    public Optional<Res> update(Res response) {
+    public Optional<Res> update(@Valid Res response) {
         assert mapper != null;
         Entity entityToUpdate = mapper.toEntityFromResponse(response);
         try {
@@ -113,7 +114,7 @@ public abstract class _IService<ID, Req extends _Request, Res extends _Response,
      * @return Boolean indicating the success of the deletion operation.
      */
     @Transactional
-    public Boolean delete(Res response) {
+    public Boolean delete(@Valid Res response) {
         assert mapper != null;
         Entity entityToDelete = mapper.toEntityFromResponse(response);
         System.out.println("\n\n\nentityToDelete");
