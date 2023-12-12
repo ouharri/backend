@@ -7,7 +7,7 @@ import java.io.Serializable;
  * Implement this interface in all your request DTO classes.
  * This interface serves as a common type for all request DTOs.
  */
-public interface Request extends Serializable {
+public interface _Request extends Serializable {
     // This interface is intentionally left blank.
     // It serves as a marker interface for request DTOs.
 }
