@@ -8,9 +8,10 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -28,8 +29,8 @@ import java.util.UUID;
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class AbstractEntity implements Serializable {
-
+public abstract class AbstractEntity implements _Entity<UUID> {
+    
     /**
      * The unique identifier for the entity.
      */
@@ -41,24 +42,28 @@ public abstract class AbstractEntity implements Serializable {
      * The timestamp indicating when the entity was created.
      */
     @CreationTimestamp
-    @Column(name = "created_at")
+    @ReadOnlyProperty
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
 
     /**
      * The timestamp indicating when the entity was last updated.
      */
     @UpdateTimestamp
+    @ReadOnlyProperty
+    @LastModifiedDate
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updatedAt;
 
+
     /**
      * The version of the entity, used for optimistic locking.
      */
     @Version
+    @ReadOnlyProperty
     private Long version = 0L;
-
 }
