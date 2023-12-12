@@ -1,8 +1,7 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.model.dto.auth.ChangePasswordRequest;
+import com.ouharri.aftas.model.dto.requests.ChangePasswordRequest;
 import com.ouharri.aftas.model.entities.User;
-import com.ouharri.aftas.services.impl.IUserService;
 import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
