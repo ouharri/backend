@@ -5,42 +5,50 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
-@Entity
-@Table(name = "ranking")
+/**
+ * Represents the ranking of a member in a competition.
+ * Implements the _Entity interface with a composite key of type RankingId.
+ *
+ * @author ouharri
+ * @version 2.0
+ */
 @Getter
 @Setter
 @Builder
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Ranking implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+@Table(name = "ranking")
+public class Ranking implements _Entity<RankingId> {
 
+    /**
+     * The composite key for the ranking, consisting of competition, and member IDs.
+     */
     @EmbeddedId
     private RankingId id;
 
+    /**
+     * The score achieved by the member in the competition.
+     */
     @NotNull(message = "Score cannot be null.")
-    private Long score;
+    private long score;
 
+    /**
+     * The rank of the member in the competition.
+     */
     @NotNull(message = "Rank cannot be null.")
     private Integer rank;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    protected LocalDateTime updatedAt;
-
+    /**
+     * The competition associated with this ranking.
+     */
     @ManyToOne(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -48,4 +56,39 @@ public class Ranking implements Serializable {
     )
     @JoinColumn(name = "competition_id", insertable = false, updatable = false)
     private Competition competition;
+
+    /**
+     * Serial version UID for serialization.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * The timestamp indicating the creation time of the ranking.
+     */
+    @CreationTimestamp
+    @ReadOnlyProperty
+    @Builder.Default
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+
+    /**
+     * The timestamp indicating the last update time of the ranking.
+     */
+    @UpdateTimestamp
+    @ReadOnlyProperty
+    @LastModifiedDate
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp updatedAt = new Timestamp(System.currentTimeMillis());
+
+    /**
+     * The version number for optimistic locking.
+     */
+    @Version
+    @ReadOnlyProperty
+    private Long version = 0L;
 }
