@@ -4,10 +4,7 @@ import com.ouharri.aftas.model.dto.requests.RankingRequest;
 import com.ouharri.aftas.model.dto.responces.RankingResponse;
 import com.ouharri.aftas.model.entities.Ranking;
 import com.ouharri.aftas.model.entities.RankingId;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 /**
  * Mapper interface for converting between {@link Ranking} DTOs and entities.
@@ -19,5 +16,13 @@ import org.mapstruct.ReportingPolicy;
         componentModel = MappingConstants.ComponentModel.SPRING
 )
 public interface RankingMapper extends _Mapper<RankingId, RankingRequest, RankingResponse, Ranking> {
+    @Override
+    @Mapping(target = "id.member", source = "member")
+    @Mapping(target = "id.competition", source = "competition")
+    Ranking toEntityFromRequest(RankingRequest request);
 
+    @Override
+    @Mapping(target = "member", source = "id.member")
+    @Mapping(target = "competition", source = "id.competition")
+    RankingResponse toResponse(Ranking entity);
 }
