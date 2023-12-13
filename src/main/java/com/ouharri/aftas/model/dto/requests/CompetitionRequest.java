@@ -36,5 +36,5 @@ public record CompetitionRequest(
         @Min(0)
         @NotNull(message = "The amount cannot be null.")
         Double amount
-) implements Request {
+) implements _Request {
 }
