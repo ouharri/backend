@@ -17,7 +17,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Token extends AbstractEntity {
-    
+
     /**
      * The token string, unique within the system.
      */
