@@ -34,5 +34,5 @@ public record RegisterRequest(
         @NotEmpty(message = "Password confirmation cannot be empty")
         @Size(min = 8, message = "Password confirmation is too short")
         String confirmationPassword
-) implements Request {
+) implements _Request {
 }
