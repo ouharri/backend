@@ -43,12 +43,19 @@ public class Fish extends AbstractEntity {
      * The level of difficulty associated with hunting this fish.
      */
     @ManyToOne
-    @JoinColumn(name = "level_id", referencedColumnName = "id")
+    @JoinColumn(
+            name = "level_id",
+            referencedColumnName = "id"
+    )
     private Level level;
 
     /**
      * List of hunting records associated with this fish.
      */
-    @OneToMany(mappedBy = "fish", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "huntingCompositeKey.fish",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    )
     private List<Hunting> huntings = new ArrayList<>();
 }
