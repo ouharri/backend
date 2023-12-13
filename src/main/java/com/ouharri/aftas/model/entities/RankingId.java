@@ -1,7 +1,8 @@
 package com.ouharri.aftas.model.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
@@ -26,14 +27,20 @@ public class RankingId implements Serializable {
     /**
      * The competition associated with the ranking.
      */
-    @ManyToOne
-    @JoinColumn(name = "competition_id")
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Competition.class
+    )
     private Competition competition;
 
     /**
      * The member associated with the ranking.
      */
-    @ManyToOne
-    @JoinColumn(name = "member_id")
+    @ManyToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            targetEntity = Member.class
+    )
     private Member member;
 }
