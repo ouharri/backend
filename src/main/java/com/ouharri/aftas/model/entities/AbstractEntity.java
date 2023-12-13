@@ -30,7 +30,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class AbstractEntity implements _Entity<UUID> {
-    
+
     /**
      * The unique identifier for the entity.
      */
