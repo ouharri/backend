@@ -2,6 +2,7 @@ package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests._Request;
 import com.ouharri.aftas.model.dto.responces._Response;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -29,7 +30,7 @@ public interface _Service<ID, Req extends _Request, Res extends _Response> {
      * @param request DTO containing data for entity creation.
      * @return Optional containing the response DTO of the created entity.
      */
-    Optional<Res> create(Req request);
+    Optional<Res> create(@Valid Req request);
 
     /**
      * Updates an existing entity based on the provided response DTO.
@@ -37,7 +38,7 @@ public interface _Service<ID, Req extends _Request, Res extends _Response> {
      * @param response DTO containing updated data.
      * @return Optional containing the response DTO of the updated entity.
      */
-    Optional<Res> update(Res response);
+    Optional<Res> update(@Valid Res response);
 
     /**
      * Retrieves an entity by its unique identifier.
@@ -53,5 +54,5 @@ public interface _Service<ID, Req extends _Request, Res extends _Response> {
      * @param response DTO containing data for entity deletion.
      * @return Boolean indicating the success of the deletion operation.
      */
-    Boolean delete(Res response);
+    Boolean delete(@Valid Res response);
 }
