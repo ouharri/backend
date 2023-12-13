@@ -19,6 +19,6 @@ import java.util.UUID;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = MappingConstants.ComponentModel.SPRING
 )
-public interface CompetitionMapper extends _Mapper<UUID,CompetitionRequest, CompetitionResponse, Competition> {
+public interface CompetitionMapper extends _Mapper<UUID, CompetitionRequest, CompetitionResponse, Competition> {
 
 }
