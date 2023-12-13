@@ -2,6 +2,7 @@ package com.ouharri.aftas.model.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -46,8 +47,8 @@ public class Ranking implements _Entity<RankingId> {
     /**
      * The rank of the member in the competition.
      */
-    @NotNull(message = "Rank cannot be null.")
-    private Integer rank;
+    @Positive(message = "Rank must be positive.")
+    private Integer rank = 0;
     /**
      * The timestamp indicating the creation time of the ranking.
      */
