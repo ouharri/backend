@@ -19,5 +19,5 @@ public record AuthenticationRequest(
         @NotBlank(message = "Password is required")
         @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters")
         String password
-) implements Request {
+) implements _Request {
 }
