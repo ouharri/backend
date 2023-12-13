@@ -37,11 +37,13 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
     Repository repository;
 
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public final void setRepository(Repository repository) {
         this.repository = repository;
     }
 
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public final void setMapper(Mapper mapper) {
         this.mapper = mapper;
     }
