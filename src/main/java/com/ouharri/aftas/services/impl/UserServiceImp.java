@@ -24,8 +24,9 @@ import java.util.UUID;
  */
 @Slf4j
 @Service
+@Validated
 @RequiredArgsConstructor
-public class IUserService implements UserService {
+public class UserServiceImp implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository repository;
 
