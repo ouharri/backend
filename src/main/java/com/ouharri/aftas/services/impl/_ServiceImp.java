@@ -6,7 +6,6 @@ import com.ouharri.aftas.model.dto.responces._Response;
 import com.ouharri.aftas.model.entities._Entity;
 import com.ouharri.aftas.model.mapper._Mapper;
 import com.ouharri.aftas.services.spec._Service;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +33,18 @@ import java.util.Optional;
 @NoArgsConstructor(force = true)
 public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Response, Entity extends _Entity<ID>, Repository extends JpaRepository<Entity, ID>, Mapper extends _Mapper<ID, Req, Res, Entity>> implements _Service<ID, Req, Res> {
 
+    Mapper mapper;
+    Repository repository;
+
     @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    protected final Repository repository;
+    public final void setRepository(Repository repository) {
+        this.repository = repository;
+    }
+
     @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    protected final Mapper mapper;
+    public final void setMapper(Mapper mapper) {
+        this.mapper = mapper;
+    }
 
     /**
      * Retrieves all entities in a paginated form.
@@ -61,7 +66,7 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
      * @return Optional containing the response DTO of the created entity.
      */
     @Transactional
-    public Optional<Res> create(@Valid Req request) {
+    public Optional<Res> create(Req request) {
         assert mapper != null;
         Entity entityToCreate = mapper.toEntityFromRequest(request);
         try {
@@ -81,7 +86,7 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
      * @return Optional containing the response DTO of the updated entity.
      */
     @Transactional
-    public Optional<Res> update(@Valid Res response) {
+    public Optional<Res> update(Res response) {
         assert mapper != null;
         Entity entityToUpdate = mapper.toEntityFromResponse(response);
         try {
@@ -114,7 +119,7 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
      * @return Boolean indicating the success of the deletion operation.
      */
     @Transactional
-    public Boolean delete(@Valid Res response) {
+    public Boolean delete(Res response) {
         assert mapper != null;
         Entity entityToDelete = mapper.toEntityFromResponse(response);
         System.out.println("\n\n\nentityToDelete");
