@@ -16,5 +16,5 @@ public record FishRequest(
 
         @NotNull
         LevelResponse level
-) implements Request {
+) implements _Request {
 }
