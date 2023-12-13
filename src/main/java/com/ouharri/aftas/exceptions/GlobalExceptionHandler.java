@@ -154,30 +154,6 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-//    /**
-//     * Handle ConstraintViolationException and return a proper API error response.
-//     */
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
-//        Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-//        List<ApiSubError> subErrors = new ArrayList<>();
-//        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-//            subErrors.add(new ApiValidationError(constraintViolation.getRootBeanClass().getSimpleName(),
-//                    constraintViolation.getPropertyPath().toString(), constraintViolation.getInvalidValue(),
-//                    constraintViolation.getMessage()));
-//        }
-//        ApiErrorFactory apiError = new ApiErrorFactory(
-//                HttpStatus.BAD_REQUEST,
-//                ex.getConstraintViolations().stream()
-//                        .map(ConstraintViolation::getMessage)
-//                        .collect(Collectors.toList()),
-//                ex, subErrors
-//        );
-//        log.error("Handling ConstraintViolationException", ex);
-//        return buildResponseEntity(apiError);
-//    }
-
     /**
      * Builds a ResponseEntity with the given ApiErrorFactory.
      *
