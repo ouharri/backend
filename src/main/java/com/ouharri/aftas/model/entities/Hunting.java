@@ -1,15 +1,12 @@
 package com.ouharri.aftas.model.entities;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -23,9 +20,19 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "hunting")
+@Table(
+        name = "hunting",
+        uniqueConstraints = @UniqueConstraint(
+                columnNames = {
+                        "fish_id",
+                        "member_id",
+                        "competition_id"
+                }
+        )
+)
 public class Hunting extends AbstractEntity {
 
     /**
@@ -33,26 +40,8 @@ public class Hunting extends AbstractEntity {
      */
     @NotNull(message = "The number of fish cannot be null.")
     @Positive(message = "The number of fish must be a positive integer.")
-    private int numberOfFish;
+    private int numberOfFish = 0;
 
-    /**
-     * The type of fish hunted.
-     */
-    @ManyToOne
-    @JoinColumn(name = "fish_id", referencedColumnName = "id")
-    private Fish fish;
-
-    /**
-     * The member who participated in the hunting activity.
-     */
-    @ManyToOne
-    @JoinColumn(name = "member_id", referencedColumnName = "id")
-    private Member member;
-
-    /**
-     * The competition in which the hunting activity took place.
-     */
-    @ManyToOne
-    @JoinColumn(name = "competition_id", referencedColumnName = "id")
-    private Competition competition;
+    @Embedded
+    private HuntingCompositeKey huntingCompositeKey;
 }
