@@ -3,7 +3,10 @@ package com.ouharri.aftas.model.entities;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
@@ -87,13 +90,20 @@ public class Competition extends AbstractEntity {
     /**
      * List of hunting records associated with the competition.
      */
-    @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "huntingCompositeKey.competition",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Hunting> huntings = new ArrayList<>();
 
     /**
      * List of rankings associated with the competition.
      */
-    @OneToMany(mappedBy = "competition")
+    @OneToMany(
+            mappedBy = "id.competition",
+            cascade = CascadeType.ALL
+    )
     private List<Ranking> rankings = new ArrayList<>();
 
     /**
