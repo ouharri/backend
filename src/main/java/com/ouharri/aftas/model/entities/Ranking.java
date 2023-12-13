@@ -29,29 +29,25 @@ import java.sql.Timestamp;
 public class Ranking implements _Entity<RankingId> {
 
     /**
+     * Serial version UID for serialization.
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
+    /**
      * The composite key for the ranking, consisting of competition, and member IDs.
      */
     @EmbeddedId
     private RankingId id;
-
     /**
      * The score achieved by the member in the competition.
      */
     @NotNull(message = "Score cannot be null.")
     private long score;
-
     /**
      * The rank of the member in the competition.
      */
     @NotNull(message = "Rank cannot be null.")
     private Integer rank;
-
-    /**
-     * Serial version UID for serialization.
-     */
-    @Serial
-    private static final long serialVersionUID = 1L;
-
     /**
      * The timestamp indicating the creation time of the ranking.
      */
