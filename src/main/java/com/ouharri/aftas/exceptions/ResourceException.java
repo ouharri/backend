@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class ResourceException extends RuntimeException {
-    public ResourceException() {}
+    public ResourceException() {
+    }
 
     public ResourceException(String message) {
         super(message);
