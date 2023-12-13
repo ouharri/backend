@@ -1,7 +1,8 @@
 package com.ouharri.aftas.model.entities;
 
-import com.ouharri.aftas.validations.EndTimeAfterStartTime;
-import com.ouharri.aftas.validations.FutureDate;
+import com.ouharri.aftas.validations.Annotation.EndTimeAfterStartTime;
+import com.ouharri.aftas.validations.Annotation.FutureDate;
+import com.ouharri.aftas.validations.interfaces.DateTimeValidator;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -32,7 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 @EndTimeAfterStartTime
 @Table(name = "competition")
-public class Competition extends AbstractEntity {
+public class Competition extends AbstractEntity implements DateTimeValidator {
 
     /**
      * The unique code associated with the competition.
