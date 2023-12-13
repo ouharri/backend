@@ -4,10 +4,7 @@ import com.ouharri.aftas.model.enums.IdentityDocumentType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
@@ -70,12 +67,18 @@ public class Member extends AbstractEntity {
     /**
      * The list of huntings associated with this member.
      */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "huntingCompositeKey.member",
+            cascade = CascadeType.ALL
+    )
     private List<Hunting> huntings = new ArrayList<>();
 
     /**
      * The list of rankings associated with this member.
      */
-    @OneToMany(mappedBy = "id.member", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "id.member",
+            cascade = CascadeType.ALL
+    )
     private List<Ranking> rankings;
 }
