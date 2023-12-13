@@ -32,5 +32,5 @@ public record AddressRequest(
         @Min(message = "Invalid postal code", value = 1001)
         @Max(message = "Invalid postal code", value = 99999)
         Integer postalCode
-) implements Request {
+) implements _Request {
 }
