@@ -19,6 +19,6 @@ import java.util.UUID;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         componentModel = MappingConstants.ComponentModel.SPRING
 )
-public interface FishMapper extends _Mapper<UUID,FishRequest, FishResponse, Fish> {
+public interface FishMapper extends _Mapper<UUID, FishRequest, FishResponse, Fish> {
 
 }
