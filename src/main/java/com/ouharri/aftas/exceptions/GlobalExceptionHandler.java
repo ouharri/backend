@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<ApiSubError> subErrors = new ArrayList<>();
 
@@ -95,6 +95,19 @@ public class GlobalExceptionHandler {
 
         log.error("Handling MethodArgumentNotValidException", ex);
         return ResponseEntity.badRequest().body(apiError);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                List.of(ex.getMessage()),
+                ex
+        );
+        log.error("Handling ConstraintViolationException", ex);
+        return buildResponseEntity(apiError);
     }
 
     /**
