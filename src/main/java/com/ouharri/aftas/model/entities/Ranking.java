@@ -47,17 +47,6 @@ public class Ranking implements _Entity<RankingId> {
     private Integer rank;
 
     /**
-     * The competition associated with this ranking.
-     */
-    @ManyToOne(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            targetEntity = Competition.class
-    )
-    @JoinColumn(name = "competition_id", insertable = false, updatable = false)
-    private Competition competition;
-
-    /**
      * Serial version UID for serialization.
      */
     @Serial
