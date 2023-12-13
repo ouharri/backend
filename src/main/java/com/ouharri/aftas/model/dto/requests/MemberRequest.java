@@ -27,5 +27,5 @@ public record MemberRequest(
 
         @NotBlank(message = "Identity number cannot be blank.")
         String identityNumber
-) implements Request {
+) implements _Request {
 }
