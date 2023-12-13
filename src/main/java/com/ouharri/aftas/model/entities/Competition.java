@@ -1,5 +1,7 @@
 package com.ouharri.aftas.model.entities;
 
+import com.ouharri.aftas.validations.EndTimeAfterStartTime;
+import com.ouharri.aftas.validations.FutureDate;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -28,6 +30,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@EndTimeAfterStartTime
 @Table(name = "competition")
 public class Competition extends AbstractEntity {
 
@@ -43,6 +46,7 @@ public class Competition extends AbstractEntity {
      */
     @NotNull(message = "The date cannot be null.")
     @Temporal(TemporalType.DATE)
+    @FutureDate(message = "The date of the competition must be in the future.")
     private Date date;
 
     /**
