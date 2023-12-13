@@ -2,8 +2,8 @@ package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.model.dto.requests.AuthenticationRequest;
-import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
 import com.ouharri.aftas.model.dto.requests.RegisterRequest;
+import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
 import com.ouharri.aftas.services.spec.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
