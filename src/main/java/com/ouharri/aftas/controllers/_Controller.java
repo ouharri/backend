@@ -6,6 +6,7 @@ import com.ouharri.aftas.model.dto.responces._Response;
 import com.ouharri.aftas.services.spec._Service;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +28,26 @@ import java.util.Optional;
  * @param <ServiceType>  The service type implementing _service.
  */
 @Slf4j
+@Getter
 @Validated
+@RestController
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 public abstract class _Controller<ID, RequestType extends _Request, ResponseType extends _Response, ServiceType extends _Service<ID, RequestType, ResponseType>> {
 
+    private ServiceType service;
+
     @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    protected final ServiceType service;
+    public final void setService(ServiceType service) {
+        this.service = service;
+    }
 
     /**
      * Creates a new entity based on the provided request.
      *
-     * @param request        The request DTO.
-     * @param bindingResult  The result of the validation.
-     * @return               ResponseEntity containing the created entity or a bad request if creation fails.
+     * @param request       The request DTO.
+     * @param bindingResult The result of the validation.
+     * @return ResponseEntity containing the created entity or a bad request if creation fails.
      */
     @PostMapping
     public ResponseEntity<ResponseType> create(
@@ -61,8 +67,8 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
     /**
      * Retrieves all entities with pagination.
      *
-     * @param pageable  The pagination information.
-     * @return          ResponseEntity containing a page of entities.
+     * @param pageable The pagination information.
+     * @return ResponseEntity containing a page of entities.
      */
     @GetMapping
     public ResponseEntity<Page<ResponseType>> getAll(Pageable pageable) {
@@ -73,11 +79,11 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
     /**
      * Retrieves an entity by its identifier.
      *
-     * @param id  The identifier of the entity.
-     * @return    ResponseEntity containing the retrieved entity or not found response if the entity does not exist.
+     * @param id The identifier of the entity.
+     * @return ResponseEntity containing the retrieved entity or not found response if the entity does not exist.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseType> getById(@PathVariable("id") ID id) {
+    public ResponseEntity<ResponseType> getById(@Valid @PathVariable("id") ID id) {
         assert service != null;
         return service.getById(id)
                 .map(ResponseEntity::ok)
@@ -87,9 +93,9 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
     /**
      * Updates an existing entity based on the provided request.
      *
-     * @param request        The request DTO.
-     * @param bindingResult  The result of the validation.
-     * @return               ResponseEntity containing the updated entity or not found response if the update fails.
+     * @param request       The request DTO.
+     * @param bindingResult The result of the validation.
+     * @return ResponseEntity containing the updated entity or not found response if the update fails.
      */
     @PutMapping
     public ResponseEntity<ResponseType> update(
@@ -109,9 +115,9 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
     /**
      * Deletes an entity based on the provided request.
      *
-     * @param request        The request DTO.
-     * @param bindingResult  The result of the validation.
-     * @return               ResponseEntity with no content if deletion is successful, or not found response if deletion fails.
+     * @param request       The request DTO.
+     * @param bindingResult The result of the validation.
+     * @return ResponseEntity with no content if deletion is successful, or not found response if deletion fails.
      */
     @DeleteMapping
     public ResponseEntity<Void> delete(
@@ -129,7 +135,7 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
         }
     }
 
-    private void handleValidationError(BindingResult bindingResult) {
+    protected void handleValidationError(BindingResult bindingResult) {
         throw new ResourceNotCreatedException(bindingResult);
     }
 }
