@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <Req> The request DTO type.
  * @param <Res> The response DTO type.
  */
-public interface _Service<ID,Req extends _Request, Res extends _Response> {
+public interface _Service<ID, Req extends _Request, Res extends _Response> {
 
     /**
      * Retrieves all entities in a paginated form.
