@@ -1,18 +1,16 @@
 package com.ouharri.aftas.services.spec;
 
-import com.ouharri.aftas.model.dto.auth.AuthenticationRequest;
-import com.ouharri.aftas.model.dto.auth.AuthenticationResponse;
-import com.ouharri.aftas.model.dto.auth.RegisterRequest;
+import com.ouharri.aftas.model.dto.requests.AuthenticationRequest;
+import com.ouharri.aftas.model.dto.requests.RegisterRequest;
+import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 /**
  * Interface for user authentication and token management.
  */
-@Service
 public interface AuthenticationService {
 
     /**
