@@ -20,5 +20,5 @@ public record LevelRequest(
         @NotNull(message = "Points cannot be null.")
         @Min(message = "The Points cannot be less than 0.", value = 0)
         Integer points
-) implements Request {
+) implements _Request {
 }
