@@ -39,9 +39,9 @@ public class AuthenticationController {
     /**
      * Endpoint for user registration.
      *
-     * @param request        The registration request containing user details.
-     * @param bindingResult  BindingResult for validation errors.
-     * @return               ResponseEntity with the registered user's authentication response.
+     * @param request       The registration request containing user details.
+     * @param bindingResult BindingResult for validation errors.
+     * @return ResponseEntity with the registered user's authentication response.
      * @throws ResourceNotCreatedException If there are validation errors.
      */
     @PostMapping("/register")
@@ -58,9 +58,9 @@ public class AuthenticationController {
     /**
      * Endpoint for user authentication.
      *
-     * @param request        The authentication request containing user credentials.
-     * @param bindingResult  BindingResult for validation errors.
-     * @return               ResponseEntity with the authenticated user's response.
+     * @param request       The authentication request containing user credentials.
+     * @param bindingResult BindingResult for validation errors.
+     * @return ResponseEntity with the authenticated user's response.
      * @throws ResourceNotCreatedException If there are validation errors.
      */
     @PostMapping("/authenticate")
@@ -78,7 +78,7 @@ public class AuthenticationController {
      * Endpoint for checking the validity of an authentication token.
      *
      * @param request The HTTPServletRequest containing the token in the Authorization header.
-     * @return        ResponseEntity with a boolean indicating token validity.
+     * @return ResponseEntity with a boolean indicating token validity.
      */
     @PostMapping("/check-token")
     public ResponseEntity<Boolean> checkToken(
