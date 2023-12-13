@@ -1,8 +1,12 @@
 package com.ouharri.aftas.model.dto.requests;
 
+import com.ouharri.aftas.validations.Annotation.EndTimeAfterStartTime;
+import com.ouharri.aftas.validations.Annotation.FutureDate;
+import com.ouharri.aftas.validations.interfaces.DateTimeValidator;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
@@ -11,14 +15,20 @@ import java.sql.Time;
 /**
  * DTO for {@link com.ouharri.aftas.model.entities.Competition}
  */
+
+@EndTimeAfterStartTime
 public record CompetitionRequest(
+        @FutureDate
+        @Getter
         @NotNull(message = "The date cannot be null.")
         Date date,
 
+        @Getter
         @NotNull(message = "The start time cannot be null.")
         @DateTimeFormat(pattern = "HH:mm:ss")
         Time startTime,
 
+        @Getter
         @NotNull(message = "The end time cannot be null.")
         @DateTimeFormat(pattern = "HH:mm:ss")
         Time endTime,
@@ -36,5 +46,5 @@ public record CompetitionRequest(
         @Min(0)
         @NotNull(message = "The amount cannot be null.")
         Double amount
-) implements _Request {
+) implements _Request, DateTimeValidator {
 }
