@@ -34,21 +34,25 @@ public class Ranking implements _Entity<RankingId> {
      */
     @Serial
     private static final long serialVersionUID = 1L;
+
     /**
      * The composite key for the ranking, consisting of competition, and member IDs.
      */
     @EmbeddedId
     private RankingId id;
+
     /**
      * The score achieved by the member in the competition.
      */
     @NotNull(message = "Score cannot be null.")
     private long score;
+
     /**
      * The rank of the member in the competition.
      */
     @Positive(message = "Rank must be positive.")
     private Integer rank = 0;
+
     /**
      * The timestamp indicating the creation time of the ranking.
      */
