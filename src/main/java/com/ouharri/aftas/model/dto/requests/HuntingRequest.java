@@ -1,5 +1,8 @@
 package com.ouharri.aftas.model.dto.requests;
 
+import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
+import com.ouharri.aftas.model.dto.responces.FishResponse;
+import com.ouharri.aftas.model.dto.responces.MemberResponse;
 import com.ouharri.aftas.model.entities.Hunting;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -13,12 +16,12 @@ public record HuntingRequest(
         Integer numberOfFish,
 
         @NotNull(message = "The fish cannot be null.")
-        FishRequest fish,
+        FishResponse fish,
 
         @NotNull(message = "The member cannot be null.")
-        MemberRequest member,
+        MemberResponse member,
 
         @NotNull(message = "The competition cannot be null.")
-        CompetitionRequest competition
-) implements Request {
+        CompetitionResponse competition
+) implements _Request {
 }
