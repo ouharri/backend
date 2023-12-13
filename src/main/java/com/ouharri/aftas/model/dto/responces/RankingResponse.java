@@ -11,13 +11,17 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record RankingResponse(
         CompetitionResponse competition,
+
         MemberResponse member,
 
         @NotNull(message = "Score cannot be null.")
         Long score,
+
         @NotNull(message = "Rank cannot be null.")
         Integer rank,
+
         Timestamp createdAt,
+
         Timestamp updatedAt
 ) implements _Response {
 }
