@@ -35,7 +35,7 @@ import java.util.Optional;
 @NoArgsConstructor(force = true)
 public abstract class _Controller<ID, RequestType extends _Request, ResponseType extends _Response, ServiceType extends _Service<ID, RequestType, ResponseType>> {
 
-    private ServiceType service;
+    ServiceType service;
 
     @Autowired
     public final void setService(ServiceType service) {
