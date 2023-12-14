@@ -9,12 +9,12 @@ import lombok.*;
 import java.util.Objects;
 
 /**
- * This class represents an address of {@link User} and {@link Competition} entities.
+ * This class represents an address of {@link User} or {@link Competition} entities.
  *
  * <p>The address includes information such as region, district, city, street, building number,
  * apartment number, and postal code.
  *
- * <p>Instances of this class are embedded within {@link User} and {@link Competition} entities.
+ * <p>Instances of this class are embedded within {@link User} or {@link Competition} entities.
  *
  * @author Ouharri Outman
  * @version 1.0
