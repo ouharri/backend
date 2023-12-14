@@ -27,6 +27,7 @@ public class FutureDateValidator implements ConstraintValidator<FutureDate, Date
 
         Date currentDate = new Date(System.currentTimeMillis());
 
-        return date.after(currentDate);
+        return date.toLocalDate().isEqual(currentDate.toLocalDate())
+                || date.toLocalDate().isAfter(currentDate.toLocalDate());
     }
 }
