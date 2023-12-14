@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.UniqueElements;
 
 /**
  * Represents a record of a member's hunting activity in a competition.
@@ -34,7 +35,6 @@ import lombok.experimental.SuperBuilder;
         )
 )
 public class Hunting extends AbstractEntity {
-
     /**
      * The number of fish caught during the hunting activity.
      */
@@ -43,5 +43,6 @@ public class Hunting extends AbstractEntity {
     private int numberOfFish = 0;
 
     @Embedded
+    @UniqueElements
     private HuntingCompositeKey huntingCompositeKey;
 }
