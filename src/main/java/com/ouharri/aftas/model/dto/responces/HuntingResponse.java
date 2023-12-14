@@ -20,7 +20,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HuntingResponse extends AbstractResponse {
-
     @NotNull(message = "The number of fish cannot be null.")
     @Positive(message = "The number of fish must be a positive integer.")
     private Integer numberOfFish;
