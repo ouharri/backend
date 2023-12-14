@@ -1,5 +1,6 @@
 package com.ouharri.aftas.model.dto.requests;
 
+import com.ouharri.aftas.model.entities.Competition;
 import com.ouharri.aftas.validations.Annotation.EndTimeAfterStartTime;
 import com.ouharri.aftas.validations.Annotation.FutureDate;
 import com.ouharri.aftas.validations.interfaces.DateTimeValidator;
@@ -13,13 +14,13 @@ import java.sql.Date;
 import java.sql.Time;
 
 /**
- * DTO for {@link com.ouharri.aftas.model.entities.Competition}
+ * DTO for {@link Competition}
  */
 
 @EndTimeAfterStartTime
 public record CompetitionRequest(
-        @FutureDate
         @Getter
+        @FutureDate
         @NotNull(message = "The date cannot be null.")
         Date date,
 
