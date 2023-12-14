@@ -45,9 +45,9 @@ public class Competition extends AbstractEntity implements DateTimeValidator {
     /**
      * The date of the competition.
      */
-    @NotNull(message = "The date cannot be null.")
+    @FutureDate
     @Temporal(TemporalType.DATE)
-    @FutureDate(message = "The date of the competition must be in the future.")
+    @NotNull(message = "The date cannot be null.")
     private Date date;
 
     /**
