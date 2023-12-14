@@ -5,7 +5,7 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Interface for validating date and time fields.
