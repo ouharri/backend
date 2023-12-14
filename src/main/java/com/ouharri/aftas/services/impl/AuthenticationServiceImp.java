@@ -3,8 +3,8 @@ package com.ouharri.aftas.services.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ouharri.aftas.exceptions.ResourceNotFoundException;
 import com.ouharri.aftas.model.dto.requests.AuthenticationRequest;
-import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
 import com.ouharri.aftas.model.dto.requests.RegisterRequest;
+import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
 import com.ouharri.aftas.model.entities.Token;
 import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.model.enums.Role;
@@ -24,7 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.io.IOException;
 
@@ -37,7 +36,7 @@ import java.io.IOException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class IAuthenticationService implements AuthenticationService {
+public class AuthenticationServiceImp implements AuthenticationService {
     private final JwtService jwtService;
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
