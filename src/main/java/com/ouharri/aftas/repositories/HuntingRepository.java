@@ -9,10 +9,27 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+/**
+ * Repository interface for accessing and managing {@link Hunting} entities in the database.
+ */
 @Repository
 public interface HuntingRepository extends JpaRepository<Hunting, UUID> {
+
+    /**
+     * Checks if a hunting entry with the specified composite key exists.
+     *
+     * @param huntingCompositeKey The composite key to check.
+     * @return true if the hunting entry exists, false otherwise.
+     */
     Boolean existsByHuntingCompositeKey(HuntingCompositeKey huntingCompositeKey);
 
+    /**
+     * Calculates the total points for a member in a specific competition based on their hunting entries.
+     *
+     * @param memberId      The ID of the member.
+     * @param competitionId The ID of the competition.
+     * @return The total points for the member in the specified competition.
+     */
     @Query("SELECT SUM(f.level.points * h.numberOfFish) " +
             "FROM Hunting h " +
             "JOIN h.huntingCompositeKey.fish f " +
