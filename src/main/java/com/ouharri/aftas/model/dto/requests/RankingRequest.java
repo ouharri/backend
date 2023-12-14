@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotNull;
  * DTO for {@link Ranking}
  */
 public record RankingRequest(
-
         @NotNull(message = "The competition cannot be null.")
         CompetitionResponse competition,
 
