@@ -1,7 +1,6 @@
 package com.ouharri.aftas.job;
 
 import com.ouharri.aftas.model.entities.Competition;
-import com.ouharri.aftas.model.mapper.CompetitionMapper;
 import com.ouharri.aftas.services.spec.CompetitionService;
 import com.ouharri.aftas.services.spec.RankingService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +22,9 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class RankingJob implements Job {
-    private final CompetitionMapper competitionMapper;
-
     private final RankingService rankingService;
     private final CompetitionService competitionService;
+
 
     /**
      * Executes the ranking calculation job.
@@ -38,12 +36,14 @@ public class RankingJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         try {
             JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-            Competition competition = competitionMapper.toEntityFromResponse(competitionService.getById(
+            Competition
+                    competition = competitionService.getCompetitionById(
                             (UUID) jobDataMap.get("competitionID")
-                    ).orElseThrow(
-                            () -> new RuntimeException("Competition not found")
                     )
-            );
+                    .orElseThrow(
+                            () -> new RuntimeException("Competition not found")
+                    );
+
             rankingService.calculateRanking(competition);
             String jobId = (String) jobDataMap.get("jobID");
             log.info("Job Started-" + jobId + " at:" + new Date() + " for competition:" + competition.getId());
