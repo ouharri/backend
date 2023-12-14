@@ -1,5 +1,7 @@
 package com.ouharri.aftas.config;
 
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /**
  * Configuration class for customizing the task scheduler in a Spring Boot application.
@@ -39,6 +42,20 @@ public class SchedulerConfiguration implements SchedulingConfigurer {
         scheduler.setPoolSize(10);
         scheduler.setThreadNamePrefix("ThreadScheduler-");
         scheduler.initialize();
+        return scheduler;
+    }
+
+    /**
+     * Creates and configures a Quartz Scheduler bean.
+     *
+     * @param factory The SchedulerFactoryBean used to create the Scheduler.
+     * @return The configured Quartz Scheduler bean.
+     * @throws SchedulerException If an error occurs while starting the scheduler.
+     */
+    @Bean
+    public Scheduler scheduler(SchedulerFactoryBean factory) throws SchedulerException {
+        Scheduler scheduler = factory.getScheduler();
+        scheduler.start();
         return scheduler;
     }
 }
