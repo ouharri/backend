@@ -59,7 +59,6 @@ public abstract class AbstractEntity implements _Entity<UUID> {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp updatedAt;
 
-
     /**
      * The version of the entity, used for optimistic locking.
      */
