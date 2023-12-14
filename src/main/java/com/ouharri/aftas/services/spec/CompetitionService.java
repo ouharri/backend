@@ -1,16 +1,25 @@
 package com.ouharri.aftas.services.spec;
 
-import com.ouharri.aftas.model.dto.Competition.CompetitionReq;
-import com.ouharri.aftas.model.dto.Competition.CompetitionResp;
+import com.ouharri.aftas.model.dto.requests.CompetitionRequest;
+import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
 import com.ouharri.aftas.model.entities.Competition;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public interface CompetitionService {
-    public Optional<CompetitionResp> createFish(CompetitionReq competition);
+/**
+ * Service interface for managing {@link Competition} entities.
+ * Extends the generic service interface {@link _Service}.
+ *
+ * @see _Service
+ */
+public interface CompetitionService extends _Service<UUID, CompetitionRequest, CompetitionResponse> {
 
-    public Page<CompetitionResp> getAllCompetitions(Pageable pageable);
-
+    /**
+     * Retrieves a competition by its unique identifier.
+     *
+     * @param id The unique identifier of the competition.
+     * @return An optional containing the competition, or empty if not found.
+     */
+    Optional<Competition> getCompetitionById(UUID id);
 }
