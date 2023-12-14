@@ -38,6 +38,7 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
     ServiceType service;
 
     @Autowired
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     public final void setService(ServiceType service) {
         this.service = service;
     }
