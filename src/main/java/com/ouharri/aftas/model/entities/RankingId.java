@@ -29,7 +29,6 @@ public class RankingId implements Serializable {
      */
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
             targetEntity = Competition.class
     )
     private Competition competition;
@@ -39,7 +38,6 @@ public class RankingId implements Serializable {
      */
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
             targetEntity = Member.class
     )
     private Member member;
