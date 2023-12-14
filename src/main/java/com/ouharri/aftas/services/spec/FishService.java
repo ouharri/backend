@@ -12,4 +12,5 @@ import java.util.UUID;
  * @see _Service
  */
 public interface FishService extends _Service<UUID, FishRequest, FishResponse> {
+    
 }
