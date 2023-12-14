@@ -1,12 +1,15 @@
 package com.ouharri.aftas.services.spec;
 
-import com.ouharri.aftas.model.dto.Fish.FishReq;
-import com.ouharri.aftas.model.dto.Fish.FishResp;
-import org.springframework.stereotype.Service;
+import com.ouharri.aftas.model.dto.requests.FishRequest;
+import com.ouharri.aftas.model.dto.responces.FishResponse;
 
-import java.util.Optional;
+import java.util.UUID;
 
-@Service
-public interface FishService {
-    public Optional<FishResp> createFish(FishReq fish);
+/**
+ * Service interface for managing Fish entities.
+ * Extends the generic service interface {@link _Service}.
+ *
+ * @see _Service
+ */
+public interface FishService extends _Service<UUID, FishRequest, FishResponse> {
 }
