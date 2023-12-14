@@ -100,8 +100,8 @@ public record ApiErrorFactory(
         this(status, LocalDateTime.now(), message, null, null);
     }
 
-    ApiErrorFactory(HttpStatus status, List<String> message, Exception ex, List<ApiSubError> subErrors) {
-        this(status, LocalDateTime.now(), message, ex.getLocalizedMessage(), subErrors);
+    ApiErrorFactory(List<String> message, Exception ex, List<ApiSubError> subErrors) {
+        this(HttpStatus.BAD_REQUEST, LocalDateTime.now(), message, ex.getLocalizedMessage(), subErrors);
     }
 
     ApiErrorFactory(HttpStatus status, List<String> message, Exception ex) {
