@@ -51,7 +51,7 @@ public class Ranking implements _Entity<RankingId> {
      * The rank of the member in the competition.
      */
     @Positive(message = "Rank must be positive.")
-    private Integer rank = 0;
+    private Integer rank = 1;
 
     /**
      * The timestamp indicating the creation time of the ranking.
