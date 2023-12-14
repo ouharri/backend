@@ -135,6 +135,11 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
         }
     }
 
+    /**
+     * Handles validation errors by throwing a {@link ResourceNotCreatedException}.
+     *
+     * @param bindingResult The result of the validation.
+     */
     protected void handleValidationError(BindingResult bindingResult) {
         throw new ResourceNotCreatedException(bindingResult);
     }
