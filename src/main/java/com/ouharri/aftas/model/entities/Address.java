@@ -76,7 +76,7 @@ public class Address {
      * Indicates whether some other object is "equal to" this one.
      *
      * @param o The reference object with which to compare.
-     * @return {@code true} if this object is the same as the o argument;
+     * @return {@code true} if this object is the same as the of argument;
      * {@code false} otherwise.
      */
     @Override
