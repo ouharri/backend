@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -50,8 +51,9 @@ public class Ranking implements _Entity<RankingId> {
     /**
      * The rank of the member in the competition.
      */
+    @ColumnDefault("-1")
     @Positive(message = "Rank must be positive.")
-    private Integer rank = 1;
+    private Integer rank;
 
     /**
      * The timestamp indicating the creation time of the ranking.
