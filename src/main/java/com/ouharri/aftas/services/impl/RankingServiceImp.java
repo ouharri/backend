@@ -73,9 +73,9 @@ public class RankingServiceImp extends _ServiceImp<RankingId, RankingRequest, Ra
             Pageable pageable
     ) {
         Competition competitionEntity = competitionMapper.toEntityFromResponse(competition);
-        return repository.getAllById_Competition(competitionEntity, pageable).map(
-                mapper::toResponse
-        );
+        return repository
+                .getAllById_Competition(competitionEntity, pageable)
+                .map(mapper::toResponse);
     }
 
     /**
@@ -86,8 +86,6 @@ public class RankingServiceImp extends _ServiceImp<RankingId, RankingRequest, Ra
     public void calculateRanking(Competition competition) {
         List<Ranking> rankings = repository
                 .findAllById_CompetitionOrderByScoreDesc(competition);
-
-        System.out.println(rankings);
 
         IntStream.range(0, rankings.size())
                 .forEach(index ->
