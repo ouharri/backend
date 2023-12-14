@@ -86,7 +86,6 @@ public class GlobalExceptionHandler {
         });
 
         ApiErrorFactory apiError = new ApiErrorFactory(
-                HttpStatus.BAD_REQUEST,
                 ex.getBindingResult().getAllErrors().stream()
                         .map(DefaultMessageSourceResolvable::getDefaultMessage)
                         .collect(Collectors.toList()),
