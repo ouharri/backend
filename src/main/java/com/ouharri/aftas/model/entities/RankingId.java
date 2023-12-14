@@ -1,6 +1,5 @@
 package com.ouharri.aftas.model.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
