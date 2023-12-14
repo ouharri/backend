@@ -1,47 +1,27 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
-import com.ouharri.aftas.model.dto.Competition.CompetitionReq;
-import com.ouharri.aftas.model.dto.Competition.CompetitionResp;
+import com.ouharri.aftas.model.dto.requests.CompetitionRequest;
+import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
 import com.ouharri.aftas.services.spec.CompetitionService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.UUID;
 
+/**
+ * Controller class for handling CRUD operations on Competition entities.
+ * Exposes RESTful endpoints for managing Competition entities.
+ *
+ * @see _Controller
+ */
 @Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/competition")
-public class CompetitionController {
-    private final CompetitionService service;
+public class CompetitionController extends _Controller<UUID, CompetitionRequest, CompetitionResponse, CompetitionService> {
 
-    @PostMapping
-    public ResponseEntity<CompetitionResp> createLevel(
-            @Valid @RequestBody CompetitionReq competition,
-            BindingResult bindingResult
-    ) {
-        if (bindingResult.hasErrors())
-            throw new ResourceNotCreatedException(bindingResult);
-
-        Optional<CompetitionResp> CompetitionCreated = service.createFish(competition);
-
-        return CompetitionCreated.map(ResponseEntity::ok).orElseGet(() ->
-                ResponseEntity.badRequest().build());
-    }
-
-    @GetMapping
-    public ResponseEntity<Page<CompetitionResp>> getAllLevels(Pageable pageable) {
-        return ResponseEntity.ok(
-                service.getAllCompetitions(pageable)
-        );
-    }
 }
