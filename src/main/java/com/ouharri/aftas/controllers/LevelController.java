@@ -1,41 +1,27 @@
 package com.ouharri.aftas.controllers;
 
-import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
-import com.ouharri.aftas.model.dto.Level.LevelReq;
-import com.ouharri.aftas.model.dto.Level.LevelResp;
+import com.ouharri.aftas.model.dto.requests.LevelRequest;
+import com.ouharri.aftas.model.dto.responces.LevelResponse;
 import com.ouharri.aftas.services.spec.LevelService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.UUID;
 
+/**
+ * Controller class for handling CRUD operations on Level entities.
+ * Exposes RESTful endpoints for managing Level entities, including creation, retrieval, update, and deletion.
+ *
+ * @see _Controller
+ */
 @Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/level")
-public class LevelController {
-    private final LevelService levelService;
+public class LevelController extends _Controller<UUID, LevelRequest, LevelResponse, LevelService> {
 
-    @PostMapping
-    public ResponseEntity<LevelResp> createLevel(
-            @Valid @RequestBody LevelReq level,
-            BindingResult bindingResult
-    ) {
-        if (bindingResult.hasErrors())
-            throw new ResourceNotCreatedException(bindingResult);
-
-        Optional<LevelResp> levelToCreate = levelService.createLevel(level);
-
-        return levelToCreate.map(ResponseEntity::ok).orElseGet(() ->
-                ResponseEntity.badRequest().build());
-    }
 }
