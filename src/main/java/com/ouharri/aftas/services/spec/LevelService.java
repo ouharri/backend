@@ -1,14 +1,16 @@
 package com.ouharri.aftas.services.spec;
 
-import com.ouharri.aftas.model.dto.Level.LevelReq;
-import com.ouharri.aftas.model.dto.Level.LevelResp;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import com.ouharri.aftas.model.dto.requests.LevelRequest;
+import com.ouharri.aftas.model.dto.responces.LevelResponse;
 
-import java.util.Optional;
+import java.util.UUID;
 
-public interface LevelService {
-    Optional<LevelResp> createLevel(LevelReq level);
+/**
+ * Service interface for managing Level entities.
+ * Extends the generic service interface {@link _Service}.
+ *
+ * @see _Service
+ */
+public interface LevelService extends _Service<UUID, LevelRequest, LevelResponse> {
 
 }
