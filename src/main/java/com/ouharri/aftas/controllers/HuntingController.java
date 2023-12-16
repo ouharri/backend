@@ -46,7 +46,8 @@ public class HuntingController extends _Controller<UUID, HuntingRequest, Hunting
         if (bindingResult.hasErrors())
             handleValidationError(bindingResult);
 
-        Optional<HuntingResponse> response = getService().incrementNumberOfFish(request);
+        Optional<HuntingResponse> response = getService()
+                .incrementNumberOfFish(request);
 
         return response.map(ResponseEntity::ok)
                 .orElseGet(() ->
@@ -69,7 +70,8 @@ public class HuntingController extends _Controller<UUID, HuntingRequest, Hunting
         if (bindingResult.hasErrors())
             handleValidationError(bindingResult);
 
-        Optional<HuntingResponse> response = getService().decrementNumberOfFish(request);
+        Optional<HuntingResponse> response = getService()
+                .decrementNumberOfFish(request);
 
         return response.map(ResponseEntity::ok)
                 .orElseGet(() ->
