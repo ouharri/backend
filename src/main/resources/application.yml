@@ -7,6 +7,9 @@ logging:
     org.springframework.beans.factory: ERROR
 
 spring:
+  docker:
+    compose:
+      file: compose.yaml
   datasource:
     url: jdbc:postgresql://postgres:5432/aftas
     username: postgres
