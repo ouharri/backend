@@ -23,17 +23,23 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8081:8083"
+      - "8083:8084"
     depends_on:
       - postgres
-    restart: on-failure
+    restart: no
     networks:
       - aftas
 
 networks:
   aftas:
+    attachable: true
     name: aftas
     driver: bridge
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: 2001:0DB8::/112
+
 
 volumes:
   postgres-db:
