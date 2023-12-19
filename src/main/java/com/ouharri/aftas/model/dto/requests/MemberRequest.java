@@ -1,6 +1,7 @@
 package com.ouharri.aftas.model.dto.requests;
 
 import com.ouharri.aftas.model.entities.Member;
+import com.ouharri.aftas.model.enums.Gender;
 import com.ouharri.aftas.model.enums.IdentityDocumentType;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -24,6 +25,8 @@ public record MemberRequest(
         @Temporal(TemporalType.DATE)
         @NotNull(message = "Birth date cannot be null.")
         Date birthDate,
+
+        Gender gender,
 
         @Email(message = "Email was not provided")
         @NotNull(message = "Email cannot be null.")
