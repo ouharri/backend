@@ -1,7 +1,9 @@
 package com.ouharri.aftas.model.entities;
 
+import com.ouharri.aftas.model.enums.Gender;
 import com.ouharri.aftas.model.enums.IdentityDocumentType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,6 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import org.hibernate.validator.constraints.URL;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -56,8 +61,24 @@ public class Member extends AbstractEntity {
     private String nationality;
 
     /**
+     * The birthdate of the member.
+     */
+    @Temporal(TemporalType.DATE)
+    @NotNull(message = "Birth date cannot be null.")
+    private Date birthDate;
+
+    /**
+     * The email of the member.
+     */
+    @Email(message = "Email was not provided")
+    @NotNull(message = "Email cannot be null.")
+    private String email;
+
+    /**
      * The type of identity document.
      */
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @NotNull(message = "Identity document type cannot be null.")
     private IdentityDocumentType identityDocument;
 
@@ -66,6 +87,19 @@ public class Member extends AbstractEntity {
      */
     @NotBlank(message = "Identity number cannot be blank.")
     private String identityNumber;
+
+    /**
+     * The member's gender.
+     */
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    private Gender gender;
+
+    /**
+     * The member's image.
+     */
+    @URL
+    private String image;
 
     /**
      * The list of huntings associated with this member.
