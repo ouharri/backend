@@ -2,7 +2,6 @@ package com.ouharri.aftas.model.entities;
 
 import com.ouharri.aftas.model.enums.Gender;
 import com.ouharri.aftas.model.enums.Role;
-import com.ouharri.aftas.model.enums.Sex;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -77,13 +76,6 @@ public class User extends AbstractEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Gender gender;
-
-    /**
-     * The user's sex.
-     */
-    @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    private Sex sex;
 
     /**
      * The user's address.
