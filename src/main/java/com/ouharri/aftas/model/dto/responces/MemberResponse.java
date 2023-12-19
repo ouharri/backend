@@ -3,6 +3,9 @@ package com.ouharri.aftas.model.dto.responces;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.entities.Member;
 import com.ouharri.aftas.model.enums.IdentityDocumentType;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -10,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.URL;
 
 import java.sql.Date;
 
@@ -30,8 +34,16 @@ public class MemberResponse extends AbstractResponse {
     @NotBlank(message = "Family name cannot be blank.")
     private String familyName;
 
+    @Temporal(TemporalType.DATE)
+    @NotNull(message = "Birth date cannot be null.")
+    Date birthDate;
+
+    @Email(message = "Email was not provided")
+    @NotNull(message = "Email cannot be null.")
+    String email;
+
     @NotNull(message = "Accession date cannot be null.")
-    private Date accessionDate;
+    Date accessionDate;
 
     @NotBlank(message = "Nationality cannot be blank.")
     private String nationality;
@@ -41,4 +53,7 @@ public class MemberResponse extends AbstractResponse {
 
     @NotBlank(message = "Identity number cannot be blank.")
     private String identityNumber;
+
+    @URL
+    String image;
 }
