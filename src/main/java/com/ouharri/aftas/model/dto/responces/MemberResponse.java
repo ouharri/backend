@@ -2,6 +2,7 @@ package com.ouharri.aftas.model.dto.responces;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.entities.Member;
+import com.ouharri.aftas.model.enums.Gender;
 import com.ouharri.aftas.model.enums.IdentityDocumentType;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -53,6 +54,8 @@ public class MemberResponse extends AbstractResponse {
 
     @NotBlank(message = "Identity number cannot be blank.")
     private String identityNumber;
+
+    Gender gender;
 
     @URL
     String image;
