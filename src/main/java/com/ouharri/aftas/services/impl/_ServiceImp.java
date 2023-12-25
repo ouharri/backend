@@ -125,8 +125,6 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
     public Boolean delete(@Valid Res response) {
         assert mapper != null;
         Entity entityToDelete = mapper.toEntityFromResponse(response);
-        System.out.println("\n\n\nentityToDelete");
-        System.out.println(entityToDelete);
         assert repository != null;
         if (!repository.existsById(entityToDelete.getId())) {
             return false;
