@@ -5,6 +5,7 @@ import com.ouharri.aftas.model.dto.requests.AddressRequest;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DTO for {@link com.ouharri.aftas.model.entities.Competition}
@@ -24,6 +27,12 @@ import java.sql.Time;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CompetitionResponse extends AbstractResponse {
+    @NotBlank(message = "The title cannot be empty.")
+    private String title;
+
+    @Pattern(regexp = "^[a-zA-Z]{3}-\\d{2}-\\d{2}-\\d{2}$", message = "The code must follow the specified format.")
+    private String code;
+
     @NotNull(message = "The date cannot be null.")
     private Date date;
 
@@ -37,7 +46,6 @@ public class CompetitionResponse extends AbstractResponse {
     @Min(message = "The number of participants must be at least 0.", value = 0)
     private Integer numberOfParticipants;
 
-    @NotBlank(message = "The location cannot be empty.")
     private String location;
 
     @NotNull(message = "The address cannot be null.")
@@ -45,4 +53,6 @@ public class CompetitionResponse extends AbstractResponse {
 
     @NotNull(message = "The amount cannot be null.")
     private Double amount;
+
+    private List<MemberResponse> members = new ArrayList<>();
 }

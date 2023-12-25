@@ -1,6 +1,5 @@
 server:
   port: 8084
-  address: localhost
 
 logging:
   level:
@@ -9,9 +8,10 @@ logging:
 spring:
   docker:
     compose:
+      enabled: false
       file: compose.yaml
   datasource:
-    url: jdbc:postgresql://postgres:5432/aftas
+    url: jdbc:postgresql://localhost:5432/aftas
     username: postgres
     password: Youcode@2023
     driver-class-name: org.postgresql.Driver

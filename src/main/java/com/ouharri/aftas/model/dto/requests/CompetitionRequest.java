@@ -19,6 +19,9 @@ import java.sql.Time;
 
 @EndTimeAfterStartTime
 public record CompetitionRequest(
+        @NotBlank(message = "The title cannot be empty.")
+        String title,
+
         @Getter
         @FutureDate
         @NotNull(message = "The date cannot be null.")
@@ -38,7 +41,6 @@ public record CompetitionRequest(
         @Min(message = "The number of participants must be at least 0.", value = 0)
         Integer numberOfParticipants,
 
-        @NotBlank(message = "The location cannot be empty.")
         String location,
 
         @NotNull(message = "The address cannot be null.")

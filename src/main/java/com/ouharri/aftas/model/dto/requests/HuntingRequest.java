@@ -24,4 +24,7 @@ public record HuntingRequest(
         @NotNull(message = "The competition cannot be null.")
         CompetitionResponse competition
 ) implements _Request {
+        public HuntingRequest() {
+                this(null, null, null, null);
+        }
 }

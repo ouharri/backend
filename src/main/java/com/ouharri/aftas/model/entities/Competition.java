@@ -40,7 +40,13 @@ public class Competition extends AbstractEntity implements DateTimeValidator {
      * Follows the format: [city abbreviation]-[yy-MM-dd]
      */
     @Pattern(regexp = "^[a-zA-Z]{3}-\\d{2}-\\d{2}-\\d{2}$", message = "The code must follow the specified format.")
-    private String code = "ims-22-12-23";
+    private String code = "aaa-22-12-23";
+
+    /**
+     * The title of the competition.
+     */
+    @NotBlank(message = "The title cannot be empty.")
+    private String title;
 
     /**
      * The date of the competition.
@@ -74,7 +80,6 @@ public class Competition extends AbstractEntity implements DateTimeValidator {
     /**
      * The location where the competition takes place.
      */
-    @NotBlank(message = "The location cannot be empty.")
     private String location;
 
     /**
