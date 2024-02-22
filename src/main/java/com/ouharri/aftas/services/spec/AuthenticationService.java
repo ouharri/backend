@@ -2,7 +2,8 @@ package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests.AuthenticationRequest;
 import com.ouharri.aftas.model.dto.requests.RegisterRequest;
-import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
+import com.ouharri.aftas.model.dto.responses.AuthenticationResponse;
+import com.ouharri.aftas.model.enums.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -10,6 +11,8 @@ import java.io.IOException;
 
 /**
  * Interface for user authentication and token management.
+ *
+ * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  */
 public interface AuthenticationService {
 
@@ -20,6 +23,22 @@ public interface AuthenticationService {
      * @return AuthenticationResponse containing access and refresh tokens
      */
     AuthenticationResponse register(RegisterRequest request);
+
+
+    /**
+     * Creates a new user based on the registration request and assigns a specified role.
+     * This method involves setting up a new user with the provided details, encoding the password,
+     * and saving the user to the database.
+     * It then generates JWT access and refresh tokens for the
+     * new user and saves these tokens.
+     * This process is essential for registering new users and
+     * providing them with the necessary tokens to access secured endpoints.
+     *
+     * @param request The registration request containing the new user's details such as name, email, and password.
+     * @param role    The role to be assigned to the new user, which determines the user's permissions and access.
+     * @return AuthenticationResponse containing the generated JWT access and refresh tokens.
+     */
+    AuthenticationResponse registerUser(RegisterRequest request, Role role);
 
     /**
      * Authenticates a user and generates new access and refresh tokens.
@@ -45,5 +64,5 @@ public interface AuthenticationService {
      * @return true if the token is valid, false otherwise
      */
     Boolean checkToken(String token);
-}
 
+}
