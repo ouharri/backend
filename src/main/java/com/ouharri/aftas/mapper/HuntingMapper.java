@@ -1,7 +1,7 @@
-package com.ouharri.aftas.model.mapper;
+package com.ouharri.aftas.mapper;
 
 import com.ouharri.aftas.model.dto.requests.HuntingRequest;
-import com.ouharri.aftas.model.dto.responces.HuntingResponse;
+import com.ouharri.aftas.model.dto.responses.HuntingResponse;
 import com.ouharri.aftas.model.entities.Hunting;
 import org.mapstruct.*;
 
