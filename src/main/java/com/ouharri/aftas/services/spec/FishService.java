@@ -1,7 +1,7 @@
 package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests.FishRequest;
-import com.ouharri.aftas.model.dto.responces.FishResponse;
+import com.ouharri.aftas.model.dto.responses.FishResponse;
 
 import java.util.UUID;
 
