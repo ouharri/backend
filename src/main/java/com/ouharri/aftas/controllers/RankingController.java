@@ -1,8 +1,8 @@
 package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.model.dto.requests.RankingRequest;
-import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
-import com.ouharri.aftas.model.dto.responces.RankingResponse;
+import com.ouharri.aftas.model.dto.responses.CompetitionResponse;
+import com.ouharri.aftas.model.dto.responses.RankingResponse;
 import com.ouharri.aftas.model.entities.RankingId;
 import com.ouharri.aftas.services.spec.RankingService;
 import jakarta.validation.Valid;
@@ -23,13 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
  * Exposes RESTful endpoints for managing Ranking entities, including creation, retrieval, update, and deletion.
  * Additionally, provides an endpoint for retrieving rankings based on a specific competition.
  *
+ * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  * @see _Controller
  */
 @Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/ranking")
+@RequestMapping("/api/v2/rankings")
 public class RankingController extends _Controller<RankingId, RankingRequest, RankingResponse, RankingService> {
 
     /**
