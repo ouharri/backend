@@ -1,20 +1,30 @@
 package com.ouharri.aftas.services.spec;
 
+import com.ouharri.aftas.model.dto.App.RestPage;
 import com.ouharri.aftas.model.dto.requests._Request;
-import com.ouharri.aftas.model.dto.responces._Response;
+import com.ouharri.aftas.model.dto.responses._Response;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
- * Generic service interface with common CRUD operations.
+ * Generic service interface with common CRUD (Create, Read, Update, Delete) operations.
  *
+ * @param <ID>  The type of the unique identifier.
  * @param <Req> The request DTO type.
  * @param <Res> The response DTO type.
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  */
 public interface _Service<ID, Req extends _Request, Res extends _Response> {
+
+    /**
+     * Retrieves a list of all entities.
+     *
+     * @return List of response DTOs representing all entities.
+     */
+    List<Res> getAll();
 
     /**
      * Retrieves all entities in a paginated form.
@@ -22,7 +32,7 @@ public interface _Service<ID, Req extends _Request, Res extends _Response> {
      * @param pageable Pagination information.
      * @return Page of response DTOs.
      */
-    Page<Res> getAll(Pageable pageable);
+    RestPage<Res> getAll(Pageable pageable);
 
     /**
      * Creates a new entity based on the provided request DTO.
