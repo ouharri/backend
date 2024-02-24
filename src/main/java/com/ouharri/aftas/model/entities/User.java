@@ -83,7 +83,6 @@ public class User extends AbstractEntity<UUID> implements UserDetails {
      * The user's gender.
      */
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Gender gender = Gender.MALE;
 
     /**
@@ -101,7 +100,6 @@ public class User extends AbstractEntity<UUID> implements UserDetails {
      * The user authentication status.
      */
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private UserStatus status = UserStatus.OFFLINE;
 
     /**
