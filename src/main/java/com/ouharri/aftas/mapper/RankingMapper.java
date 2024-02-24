@@ -1,7 +1,7 @@
-package com.ouharri.aftas.model.mapper;
+package com.ouharri.aftas.mapper;
 
 import com.ouharri.aftas.model.dto.requests.RankingRequest;
-import com.ouharri.aftas.model.dto.responces.RankingResponse;
+import com.ouharri.aftas.model.dto.responses.RankingResponse;
 import com.ouharri.aftas.model.entities.Ranking;
 import com.ouharri.aftas.model.entities.RankingId;
 import org.mapstruct.*;
@@ -20,6 +20,11 @@ public interface RankingMapper extends _Mapper<RankingId, RankingRequest, Rankin
     @Mapping(target = "id.member", source = "member")
     @Mapping(target = "id.competition", source = "competition")
     Ranking toEntityFromRequest(RankingRequest request);
+
+    @Override
+    @Mapping(target = "id.member", source = "member")
+    @Mapping(target = "id.competition", source = "competition")
+    Ranking toEntityFromResponse(RankingResponse request);
 
     @Override
     @Mapping(target = "member", source = "id.member")
