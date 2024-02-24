@@ -17,12 +17,13 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a competition organized by the Aftas sports club for underwater hunting.
  * Extends the AbstractEntity class.
  *
- * @author ouharri
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
  */
 @Getter
@@ -33,7 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @EndTimeAfterStartTime
 @Table(name = "competition")
-public class Competition extends AbstractEntity implements DateTimeValidator {
+public class Competition extends AbstractEntity<UUID> implements DateTimeValidator {
 
     /**
      * The unique code associated with the competition.
