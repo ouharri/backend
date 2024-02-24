@@ -59,10 +59,7 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
      * @return List of response DTOs representing all entities.
      */
     @Transactional
-    @Cacheable(
-            sync = true,
-            key = "T(java.util.Objects).hash(#root.methodName)"
-    )
+    @Cacheable(sync = true)
     public List<Res> getAll() {
         assert repository != null;
         assert mapper != null;
