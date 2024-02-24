@@ -1,10 +1,13 @@
-package com.ouharri.aftas.security;
+package com.ouharri.aftas.services.impl;
 
+import com.ouharri.aftas.repositories.TokenRepository;
+import com.ouharri.aftas.services.spec.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,16 +23,18 @@ import java.util.stream.Collectors;
 
 /**
  * Service class for handling JWT generation, parsing, and validation.
+ *
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  */
 @Service
-public class JwtService {
+@RequiredArgsConstructor
+public class JwtServiceImpl implements JwtService {
 
+    private final TokenRepository tokenRepository;
     @Value("${application.security.jwt.secret-key}")
     private String secretKey;
-
     @Value("${application.security.jwt.expiration}")
     private long jwtExpiration;
-
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
 
@@ -118,7 +123,13 @@ public class JwtService {
      */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        var isTokenValid = tokenRepository.findByToken(token)
+                .map(t -> !t.isExpired() && !t.isRevoked())
+                .orElse(false);
+
+        return (username.equals(userDetails.getUsername()))
+                && !isTokenExpired(token)
+                && isTokenValid;
     }
 
     public boolean isTokenExpired(String token) {
