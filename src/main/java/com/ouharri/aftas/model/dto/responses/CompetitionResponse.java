@@ -1,7 +1,8 @@
-package com.ouharri.aftas.model.dto.responces;
+package com.ouharri.aftas.model.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.dto.requests.AddressRequest;
+import com.ouharri.aftas.model.entities.Competition;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,9 +17,10 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
- * DTO for {@link com.ouharri.aftas.model.entities.Competition}
+ * DTO for {@link Competition}
  */
 @Getter
 @Setter
@@ -26,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CompetitionResponse extends AbstractResponse {
+public class CompetitionResponse extends AbstractResponse<UUID> {
     @NotBlank(message = "The title cannot be empty.")
     private String title;
 
