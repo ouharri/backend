@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.core;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
