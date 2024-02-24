@@ -1,11 +1,13 @@
-package com.ouharri.aftas.exceptions;
+package com.ouharri.aftas.handler;
 
+import com.ouharri.aftas.exceptions.AuthenticationFailedException;
+import com.ouharri.aftas.model.dto.error.ApiErrorFactory;
+import com.ouharri.aftas.model.dto.error.ApiSubError;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -22,12 +24,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.security.SignatureException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Global exception handler for handling various exceptions in the API.
+ * Provides global exception handling for the API, centralizing the logic for creating error responses.
+ * This class handles a variety of exceptions and returns structured responses based on the type of error.
  *
  * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  */
@@ -67,45 +69,55 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    /**
-     * Handle handleValidationExceptions and return a map of validation errors.
-     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<ApiSubError> subErrors = new ArrayList<>();
-
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+    public ResponseEntity<ApiErrorFactory> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<ApiSubError> subErrors = ex.getBindingResult().getAllErrors().stream().map(error -> {
             if (error instanceof FieldError fieldError) {
-                subErrors.add(new ApiValidationError(fieldError.getObjectName(), fieldError.getField(),
-                        fieldError.getRejectedValue(), fieldError.getDefaultMessage()));
+                return new ApiSubError(
+                        fieldError.getObjectName(),
+                        fieldError.getField(),
+                        fieldError.getRejectedValue(),
+                        fieldError.getDefaultMessage()
+                );
             } else {
-                subErrors.add(new ApiValidationError(error.getObjectName(), error.getDefaultMessage()));
+                return new ApiSubError(error.getObjectName(), error.getDefaultMessage());
             }
-        });
+        }).collect(Collectors.toList());
 
         ApiErrorFactory apiError = new ApiErrorFactory(
-                ex.getBindingResult().getAllErrors().stream()
-                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                        .collect(Collectors.toList()),
-                ex, subErrors
+                HttpStatus.BAD_REQUEST,
+                List.of("Validation error"),
+                ex.getLocalizedMessage(),
+                subErrors
         );
 
         log.error("Handling MethodArgumentNotValidException", ex);
-        return ResponseEntity.badRequest().body(apiError);
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
 
+
+    /**
+     * Handle ConstraintViolationException for validation errors in API requests.
+     *
+     * @param ex The ConstraintViolationException caught.
+     * @return ResponseEntity with structured error response.
+     */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @Order(Ordered.HIGHEST_PRECEDENCE)
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiErrorFactory> handleConstraintViolationException(ConstraintViolationException ex) {
+        List<String> errorMessages = ex.getConstraintViolations().stream()
+                .map(violation -> violation.getPropertyPath() + ": " + violation.getMessage())
+                .collect(Collectors.toList());
+
         ApiErrorFactory apiError = new ApiErrorFactory(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                List.of(ex.getMessage()),
-                ex
+                HttpStatus.BAD_REQUEST,
+                errorMessages,
+                ex.getLocalizedMessage(),
+                null
         );
-        log.error("Handling ConstraintViolationException", ex);
+
+        log.error("Handling ConstraintViolationException: {}", ex.getMessage());
         return buildResponseEntity(apiError);
     }
 
@@ -167,10 +179,25 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Handles AuthenticationFailedException and creates a ResponseEntity with a structured error response.
+     *
+     * @param ex The exception that was thrown.
+     * @return A ResponseEntity containing the ApiErrorFactory object with error details.
+     */
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<ApiErrorFactory> handleAuthenticationFailedException(AuthenticationFailedException ex) {
+        ApiErrorFactory apiError = new ApiErrorFactory(
+                HttpStatus.UNAUTHORIZED,
+                List.of(ex.getMessage())
+        );
+        return buildResponseEntity(apiError);
+    }
+
+    /**
      * Builds a ResponseEntity with the given ApiErrorFactory.
      *
-     * @param apiError the ApiErrorFactory to include in the ResponseEntity
-     * @return a ResponseEntity instance
+     * @param apiError the ApiErrorFactory to include in the ResponseEntity.
+     * @return a ResponseEntity instance.
      */
     private ResponseEntity<ApiErrorFactory> buildResponseEntity(ApiErrorFactory apiError) {
         return new ResponseEntity<>(apiError, apiError.status());
