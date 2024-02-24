@@ -1,6 +1,6 @@
 package com.ouharri.aftas.security;
 
-import com.ouharri.aftas.repositories.TokenRepository;
+import com.ouharri.aftas.services.spec.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,14 +19,15 @@ import java.io.IOException;
 
 /**
  * Custom JWT authentication filter to process and validate JWT tokens in the incoming requests.
+ *
+ * @author <a href="mailto:ouharri.outman@gmail.com">ouharri</a>
  */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
+    private final JwtService service;
     private final UserDetailsService userDetailsService;
-    private final TokenRepository tokenRepository;
 
     /**
      * Filters incoming requests to check for a valid JWT token and authenticate the user if necessary.
@@ -43,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        if (request.getServletPath().contains("/api/v1/auth")) {
+        if (request.getServletPath().contains("/api/v2/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -58,15 +59,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
+        userEmail = service.extractUsername(jwt);
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-            var isTokenValid = tokenRepository.findByToken(jwt)
-                    .map(t -> !t.isExpired() && !t.isRevoked())
-                    .orElse(false);
 
-            if (jwtService.isTokenValid(jwt, userDetails) && isTokenValid) {
+            if (service.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
