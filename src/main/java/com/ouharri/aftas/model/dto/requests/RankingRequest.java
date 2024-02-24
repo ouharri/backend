@@ -1,7 +1,7 @@
 package com.ouharri.aftas.model.dto.requests;
 
-import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
-import com.ouharri.aftas.model.dto.responces.MemberResponse;
+import com.ouharri.aftas.model.dto.responses.CompetitionResponse;
+import com.ouharri.aftas.model.dto.responses.MemberResponse;
 import com.ouharri.aftas.model.entities.Ranking;
 import jakarta.validation.constraints.NotNull;
 
