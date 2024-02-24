@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.core;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
@@ -12,15 +12,17 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 /**
  * Configuration class for OpenAPI documentation settings.
+ *
+ * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  */
 @OpenAPIDefinition(
         info = @Info(
                 contact = @Contact(
                         name = "ouharri",
-                        email = "ouharri.outman+aftas@gmail.com",
+                        email = "ouharri.outman+spring@gmail.com",
                         url = "https://ouharri.ma"
                 ),
-                description = "OpenApi documentation for Spring Security",
+                description = "OpenApi documentation for Jobinow API",
                 title = "OpenApi specification - ouharri",
                 version = "1.0",
                 license = @License(
@@ -31,12 +33,16 @@ import io.swagger.v3.oas.annotations.servers.Server;
         ),
         servers = {
                 @Server(
-                        description = "Local ENV",
-                        url = "http://localhost:8083"
+                        description = "PROD ENV",
+                        url = "http://54.162.210.15:8085"
                 ),
                 @Server(
-                        description = "PROD ENV",
-                        url = "https://ouharri.com"
+                        description = "Test ENV",
+                        url = "http://localhost:8084    "
+                ),
+                @Server(
+                        description = "Local ENV",
+                        url = "http://localhost:8085"
                 )
         },
         security = {
