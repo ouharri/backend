@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto.responces;
+package com.ouharri.aftas.model.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.entities.Member;
@@ -17,6 +17,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.URL;
 
 import java.sql.Date;
+import java.util.UUID;
 
 /**
  * DTO for {@link Member}
@@ -27,7 +28,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MemberResponse extends AbstractResponse {
+public class MemberResponse extends AbstractResponse<UUID> {
 
     @NotBlank(message = "Name cannot be blank.")
     private String name;
