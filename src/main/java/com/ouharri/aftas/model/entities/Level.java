@@ -14,12 +14,13 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a level of difficulty associated with fishing.
  * Extends the AbstractEntity class.
  *
- * @author ouharri
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
  */
 @Entity
@@ -29,7 +30,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "level")
-public class Level extends AbstractEntity {
+public class Level extends AbstractEntity<UUID> {
 
     /**
      * The name of the fishing level.
