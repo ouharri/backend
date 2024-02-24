@@ -1,5 +1,6 @@
 package com.ouharri.aftas.exceptions;
 
+import com.ouharri.aftas.model.dto.error.ApiErrorFactory;
 import lombok.Getter;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
