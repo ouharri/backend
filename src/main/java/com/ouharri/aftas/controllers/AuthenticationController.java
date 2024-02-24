@@ -3,7 +3,7 @@ package com.ouharri.aftas.controllers;
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.model.dto.requests.AuthenticationRequest;
 import com.ouharri.aftas.model.dto.requests.RegisterRequest;
-import com.ouharri.aftas.model.dto.responces.AuthenticationResponse;
+import com.ouharri.aftas.model.dto.responses.AuthenticationResponse;
 import com.ouharri.aftas.services.spec.AuthenticationService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -102,4 +102,5 @@ public class AuthenticationController {
     ) throws IOException {
         service.refreshToken(request, response);
     }
+
 }
