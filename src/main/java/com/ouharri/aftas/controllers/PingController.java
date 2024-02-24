@@ -3,7 +3,7 @@ package com.ouharri.aftas.controllers;
 import com.ouharri.aftas.exceptions.ResourceNotFoundException;
 import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.model.enums.Role;
-import com.ouharri.aftas.security.JwtService;
+import com.ouharri.aftas.services.impl.JwtServiceImpl;
 import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.UUID;
  * Controller class to handle requests related to token validation, user roles, and authority checks.
  * This controller provides endpoints to check token validity, user roles, and specific authorities.
  *
- * @author Ouharri Outman
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 1.0
  */
 @Slf4j
@@ -28,7 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/ping")
 public class PingController {
-    private final JwtService jwtService;
+    private final JwtServiceImpl jwtServiceImpl;
     private final UserService userService;
 
     /**
@@ -53,7 +53,7 @@ public class PingController {
             @PathVariable("id") UUID id,
             @RequestBody String jwt
     ) {
-        if (jwtService.isTokenExpired(jwt)) {
+        if (jwtServiceImpl.isTokenExpired(jwt)) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
 
@@ -81,7 +81,7 @@ public class PingController {
             @PathVariable("id") UUID id,
             @RequestBody String jwt
     ) {
-        if (jwtService.isTokenExpired(jwt)) {
+        if (jwtServiceImpl.isTokenExpired(jwt)) {
             return new ResponseEntity<>(false, HttpStatus.OK);
         }
 
@@ -92,7 +92,7 @@ public class PingController {
         }
 
         return new ResponseEntity<>(
-                jwtService.isTokenValid(jwt, user.get()),
+                jwtServiceImpl.isTokenValid(jwt, user.get()),
                 HttpStatus.OK
         );
     }
@@ -109,7 +109,7 @@ public class PingController {
             @PathVariable("id") UUID id,
             @RequestBody String jwt
     ) {
-        if (jwtService.isTokenExpired(jwt))
+        if (jwtServiceImpl.isTokenExpired(jwt))
             return new ResponseEntity<>(false, HttpStatus.OK);
 
         Optional<User> user = userService.findById(id);
@@ -120,7 +120,7 @@ public class PingController {
         Role a = user.get().getRole();
 
         return new ResponseEntity<>(
-                jwtService.isTokenValid(jwt, user.get()) && (a == Role.MANAGER),
+                jwtServiceImpl.isTokenValid(jwt, user.get()) && (a == Role.MANAGER),
                 HttpStatus.OK
         );
     }
@@ -137,7 +137,7 @@ public class PingController {
             @PathVariable("id") UUID id,
             @RequestBody String jwt
     ) {
-        if (jwtService.isTokenExpired(jwt))
+        if (jwtServiceImpl.isTokenExpired(jwt))
             return new ResponseEntity<>(false, HttpStatus.OK);
 
         Optional<User> user = userService.findById(id);
@@ -148,7 +148,7 @@ public class PingController {
         Role a = user.get().getRole();
 
         return new ResponseEntity<>(
-                jwtService.isTokenValid(jwt, user.get()) && (a == Role.SUPER_ADMINISTRATOR),
+                jwtServiceImpl.isTokenValid(jwt, user.get()) && (a == Role.SUPER_ADMINISTRATOR),
                 HttpStatus.OK
         );
     }
@@ -165,7 +165,7 @@ public class PingController {
             @PathVariable("id") UUID id,
             @RequestBody String jwt
     ) {
-        if (jwtService.isTokenExpired(jwt))
+        if (jwtServiceImpl.isTokenExpired(jwt))
             return new ResponseEntity<>(false, HttpStatus.OK);
 
         Optional<User> user = userService.findById(id);
@@ -176,7 +176,7 @@ public class PingController {
         Role a = user.get().getRole();
 
         return new ResponseEntity<>(
-                jwtService.isTokenValid(jwt, user.get()) && (a == Role.ADMINISTRATOR),
+                jwtServiceImpl.isTokenValid(jwt, user.get()) && (a == Role.ADMINISTRATOR),
                 HttpStatus.OK
         );
     }
