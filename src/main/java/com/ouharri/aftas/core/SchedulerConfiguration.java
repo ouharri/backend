@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.core;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -15,6 +15,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 /**
  * Configuration class for customizing the task scheduler in a Spring Boot application.
  * Enables scheduling if the property "spring.scheduler.enabled" is set to true.
+ *  @author <a href="mailto:ouharri.outman@gmail.com">ouharri</a>
  */
 @Configuration
 @EnableScheduling
