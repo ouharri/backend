@@ -1,8 +1,9 @@
 package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
+import com.ouharri.aftas.model.dto.App.RestPage;
 import com.ouharri.aftas.model.dto.requests._Request;
-import com.ouharri.aftas.model.dto.responces._Response;
+import com.ouharri.aftas.model.dto.responses._Response;
 import com.ouharri.aftas.services.spec._Service;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -10,13 +11,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -26,6 +27,7 @@ import java.util.Optional;
  * @param <RequestType>  The request DTO type.
  * @param <ResponseType> The response DTO type.
  * @param <ServiceType>  The service type implementing _service.
+ * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  */
 @Slf4j
 @Getter
@@ -71,11 +73,23 @@ public abstract class _Controller<ID, RequestType extends _Request, ResponseType
      * @param pageable The pagination information.
      * @return ResponseEntity containing a page of entities.
      */
-    @GetMapping
-    public ResponseEntity<Page<ResponseType>> getAll(Pageable pageable) {
+    @GetMapping("/paged")
+    public ResponseEntity<RestPage<ResponseType>> getAll(Pageable pageable) {
         assert service != null;
         return ResponseEntity.ok(service.getAll(pageable));
     }
+
+    /**
+     * Retrieves all entities.
+     *
+     * @return ResponseEntity containing a list of entities.
+     */
+    @GetMapping
+    public ResponseEntity<List<ResponseType>> getAll() {
+        assert service != null;
+        return ResponseEntity.ok(service.getAll());
+    }
+
 
     /**
      * Retrieves an entity by its identifier.
