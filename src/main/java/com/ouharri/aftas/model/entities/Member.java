@@ -1,6 +1,7 @@
 package com.ouharri.aftas.model.entities;
 
 import com.ouharri.aftas.model.enums.IdentityDocumentType;
+import com.ouharri.aftas.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -65,4 +66,13 @@ public class Member extends User {
             cascade = CascadeType.ALL
     )
     private List<Ranking> rankings;
+
+    /**
+     * A pre-persistence hook that sets the default role for the member to {@link Role.MEMBER}.
+     * This method is automatically called before a new Member entity is persisted to the database.
+     */
+    @PrePersist
+    private void initRole() {
+        this.setRole(Role.MEMBER);
+    }
 }
