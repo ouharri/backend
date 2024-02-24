@@ -3,9 +3,9 @@ package com.ouharri.aftas.services.impl;
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.job.RankingJob;
 import com.ouharri.aftas.model.dto.requests.CompetitionRequest;
-import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
+import com.ouharri.aftas.model.dto.responses.CompetitionResponse;
 import com.ouharri.aftas.model.entities.Competition;
-import com.ouharri.aftas.model.mapper.CompetitionMapper;
+import com.ouharri.aftas.mapper.CompetitionMapper;
 import com.ouharri.aftas.repositories.CompetitionRepository;
 import com.ouharri.aftas.services.spec.CompetitionService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class CompetitionServiceImp extends _ServiceImp<UUID, CompetitionRequest, CompetitionResponse, Competition, CompetitionRepository, CompetitionMapper> implements CompetitionService {
+public class CompetitionServiceImpl extends _ServiceImp<UUID, CompetitionRequest, CompetitionResponse, Competition, CompetitionRepository, CompetitionMapper> implements CompetitionService {
 
     private final Scheduler scheduler;
 
