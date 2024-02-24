@@ -4,10 +4,12 @@ import com.ouharri.aftas.model.enums.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 /**
  * Represents a token entity used for authentication and authorization.
  *
- * @author ouharri
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
  */
 @Getter
@@ -16,7 +18,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Token extends AbstractEntity {
+public class Token extends AbstractEntity<UUID> {
 
     /**
      * The token string, unique within the system.
