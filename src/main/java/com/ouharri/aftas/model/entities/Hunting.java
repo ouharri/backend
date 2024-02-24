@@ -9,11 +9,13 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 /**
  * Represents a record of a member's hunting activity in a competition.
  * Extends the AbstractEntity class.
  *
- * @author ouharri
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
  */
 @Entity
@@ -33,7 +35,8 @@ import lombok.experimental.SuperBuilder;
                 }
         )
 )
-public class Hunting extends AbstractEntity {
+public class Hunting extends AbstractEntity<UUID> {
+
     /**
      * The number of fish caught during the hunting activity.
      */
