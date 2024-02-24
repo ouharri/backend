@@ -1,7 +1,7 @@
 package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.model.dto.requests.HuntingRequest;
-import com.ouharri.aftas.model.dto.responces.HuntingResponse;
+import com.ouharri.aftas.model.dto.responses.HuntingResponse;
 import com.ouharri.aftas.services.spec.HuntingService;
 import jakarta.validation.Valid;
 import lombok.Builder;
@@ -22,13 +22,14 @@ import java.util.UUID;
  * Exposes RESTful endpoints for managing Hunting entities and provides
  * specific endpoints for incrementing and decrementing the number of fish in a hunting session.
  *
+ * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  * @see _Controller
  */
 @Slf4j
 @Builder
 @Validated
 @RestController
-@RequestMapping("/api/v2/hunting")
+@RequestMapping("/api/v2/huntings")
 public class HuntingController extends _Controller<UUID, HuntingRequest, HuntingResponse, HuntingService> {
 
     /**
