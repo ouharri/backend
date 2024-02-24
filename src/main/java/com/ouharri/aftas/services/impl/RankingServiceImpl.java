@@ -1,14 +1,14 @@
 package com.ouharri.aftas.services.impl;
 
 import com.ouharri.aftas.model.dto.requests.RankingRequest;
-import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
-import com.ouharri.aftas.model.dto.responces.RankingResponse;
+import com.ouharri.aftas.model.dto.responses.CompetitionResponse;
+import com.ouharri.aftas.model.dto.responses.RankingResponse;
 import com.ouharri.aftas.model.entities.Competition;
 import com.ouharri.aftas.model.entities.Hunting;
 import com.ouharri.aftas.model.entities.Ranking;
 import com.ouharri.aftas.model.entities.RankingId;
-import com.ouharri.aftas.model.mapper.CompetitionMapper;
-import com.ouharri.aftas.model.mapper.RankingMapper;
+import com.ouharri.aftas.mapper.CompetitionMapper;
+import com.ouharri.aftas.mapper.RankingMapper;
 import com.ouharri.aftas.repositories.RankingRepository;
 import com.ouharri.aftas.services.spec.RankingService;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +24,12 @@ import java.util.stream.IntStream;
 
 /**
  * Implementation of the {@link RankingService} interface.
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RankingServiceImp extends _ServiceImp<RankingId, RankingRequest, RankingResponse, Ranking, RankingRepository, RankingMapper> implements RankingService {
+public class RankingServiceImpl extends _ServiceImp<RankingId, RankingRequest, RankingResponse, Ranking, RankingRepository, RankingMapper> implements RankingService {
 
     private final CompetitionMapper competitionMapper;
 
@@ -42,6 +43,7 @@ public class RankingServiceImp extends _ServiceImp<RankingId, RankingRequest, Ra
         Ranking ranking;
         Optional<Ranking> rankingTmp =
                 repository.findById_MemberAndIdCompetition(hunting.getHuntingCompositeKey().getMember(), hunting.getHuntingCompositeKey().getCompetition());
+
         if (rankingTmp.isPresent())
             ranking = rankingTmp.get();
         else {
@@ -51,6 +53,7 @@ public class RankingServiceImp extends _ServiceImp<RankingId, RankingRequest, Ra
             rankingId.setCompetition(hunting.getHuntingCompositeKey().getCompetition());
             ranking.setId(rankingId);
         }
+        
         ranking.setScore(
                 repository.calculateMemberPoints(
                         hunting.getHuntingCompositeKey().getMember().getId(),
