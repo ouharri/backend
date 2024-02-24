@@ -2,38 +2,45 @@ package com.ouharri.aftas.model.entities;
 
 import com.ouharri.aftas.model.enums.Gender;
 import com.ouharri.aftas.model.enums.Role;
+import com.ouharri.aftas.model.enums.UserStatus;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a user entity in the system.
  *
- * @author ouharri
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
  */
 @Getter
 @Setter
-@Builder
 @Entity
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "_user")
-public class User extends AbstractEntity implements UserDetails {
+@Inheritance(strategy = InheritanceType.JOINED)
+public class User extends AbstractEntity<UUID> implements UserDetails {
 
     /**
      * The user's password.
      */
+    @NotBlank(message = "password cannot be blank.")
+    @Size(min = 8, message = "Password must be at least 8 characters long.")
     private String password;
 
     /**
@@ -75,7 +82,25 @@ public class User extends AbstractEntity implements UserDetails {
      */
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    private Gender gender;
+    private Gender gender = Gender.MALE;
+
+    /**
+     * The nationality of the user.
+     */
+    private String nationality;
+
+    /**
+     * The birthdate of the user.
+     */
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+
+    /**
+     * The user authentication status.
+     */
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    private UserStatus status = UserStatus.OFFLINE;
 
     /**
      * The user's address.
@@ -87,14 +112,21 @@ public class User extends AbstractEntity implements UserDetails {
      * The user's role.
      */
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Role role;
+
 
     /**
      * The list of tokens associated with the user.
      */
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Token> tokens;
+
+    private boolean enabled = true;
+
+    private boolean accountNonExpired = true;
+
+    private boolean accountNonLocked = true;
 
     /**
      * Return the authorities granted to the user.
@@ -144,7 +176,7 @@ public class User extends AbstractEntity implements UserDetails {
      */
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return isAccountNonLocked();
     }
 
     /**
@@ -155,7 +187,7 @@ public class User extends AbstractEntity implements UserDetails {
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return isCredentialsNonExpired();
     }
 
     /**
@@ -165,6 +197,6 @@ public class User extends AbstractEntity implements UserDetails {
      */
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled();
     }
 }
