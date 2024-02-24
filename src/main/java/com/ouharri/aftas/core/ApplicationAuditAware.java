@@ -1,4 +1,4 @@
-package com.ouharri.aftas.config;
+package com.ouharri.aftas.core;
 
 import com.ouharri.aftas.model.entities.User;
 import io.micrometer.common.lang.NonNullApi;
