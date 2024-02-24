@@ -80,12 +80,12 @@ public enum Role {
     /**
      * Represents a player role with permissions relevant to player activities.
      */
-    PLAYER(
+    MEMBER(
             Set.of(
-                    Permission.PLAYER_READ,
-                    Permission.PLAYER_CREATE,
-                    Permission.PLAYER_DELETE,
-                    Permission.PLAYER_UPDATE
+                    Permission.MEMBER_READ,
+                    Permission.MEMBER_CREATE,
+                    Permission.MEMBER_DELETE,
+                    Permission.MEMBER_UPDATE
             )
     ),
     /**
