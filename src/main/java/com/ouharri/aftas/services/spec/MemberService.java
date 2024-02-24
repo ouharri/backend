@@ -1,7 +1,7 @@
 package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests.MemberRequest;
-import com.ouharri.aftas.model.dto.responces.MemberResponse;
+import com.ouharri.aftas.model.dto.responses.MemberResponse;
 
 import java.util.UUID;
 
