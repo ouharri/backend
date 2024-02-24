@@ -1,7 +1,7 @@
-package com.ouharri.aftas.model.mapper;
+package com.ouharri.aftas.mapper;
 
 import com.ouharri.aftas.model.dto.requests.LevelRequest;
-import com.ouharri.aftas.model.dto.responces.LevelResponse;
+import com.ouharri.aftas.model.dto.responses.LevelResponse;
 import com.ouharri.aftas.model.entities.Level;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
