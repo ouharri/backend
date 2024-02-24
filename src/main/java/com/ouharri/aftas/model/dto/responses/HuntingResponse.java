@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto.responces;
+package com.ouharri.aftas.model.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.entities.Hunting;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 /**
  * DTO for {@link Hunting}
  */
@@ -19,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HuntingResponse extends AbstractResponse {
+public class HuntingResponse extends AbstractResponse<UUID> {
     @NotNull(message = "The number of fish cannot be null.")
     @Positive(message = "The number of fish must be a positive integer.")
     private Integer numberOfFish;
