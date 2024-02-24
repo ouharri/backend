@@ -1,4 +1,4 @@
-package com.ouharri.aftas.model.dto.responces;
+package com.ouharri.aftas.model.dto.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ouharri.aftas.model.entities.Fish;
@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.UUID;
+
 /**
  * DTO for {@link Fish}
  */
@@ -19,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FishResponse extends AbstractResponse {
+public class FishResponse extends AbstractResponse<UUID> {
     @NotBlank(message = "The name cannot be blank.")
     private String name;
 
