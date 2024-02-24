@@ -22,6 +22,8 @@ import java.util.UUID;
 
 /**
  * Represents a user entity in the system.
+ * Extends the {@link AbstractEntity} and implements the {@link UserDetails} interface for Spring Security integration.
+ * Includes user-specific attributes like email, password, personal details, and roles.
  *
  * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
@@ -112,9 +114,7 @@ public class User extends AbstractEntity<UUID> implements UserDetails {
      * The user's role.
      */
     @Enumerated(EnumType.STRING)
-    //@JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private Role role;
-
 
     /**
      * The list of tokens associated with the user.
@@ -122,10 +122,18 @@ public class User extends AbstractEntity<UUID> implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Token> tokens;
 
+    /**
+     * Indicates whether the user's account is enabled.
+     * A disabled account cannot be used for authentication.
+     * Default value is {@code true}, meaning the account is enabled by default.
+     */
     private boolean enabled = true;
 
-    private boolean accountNonExpired = true;
-
+    /**
+     * Indicates whether the user's account is non-locked.
+     * A locked account cannot be used for authentication, typically as a security measure.
+     * Default value is {@code true}, meaning the account is non-locked (unlocked) by default.
+     */
     private boolean accountNonLocked = true;
 
     /**
