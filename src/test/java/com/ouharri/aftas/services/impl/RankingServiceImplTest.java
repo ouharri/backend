@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RankingServiceImpTest {
+class RankingServiceImplTest {
 
     @Test
     void calculateAndSetRanking() {

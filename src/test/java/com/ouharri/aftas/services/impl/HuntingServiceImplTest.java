@@ -1,12 +1,11 @@
 package com.ouharri.aftas.services.impl;
 
-import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.model.dto.requests.HuntingRequest;
-import com.ouharri.aftas.model.dto.responces.*;
+import com.ouharri.aftas.model.dto.responses.*;
 import com.ouharri.aftas.repositories.CompetitionRepository;
 import com.ouharri.aftas.repositories.HuntingRepository;
 import com.ouharri.aftas.model.entities.Hunting;
-import com.ouharri.aftas.model.mapper.HuntingMapper;
+import com.ouharri.aftas.mapper.HuntingMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +19,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class   HuntingServiceImpTest {
+class HuntingServiceImplTest {
 
     @Mock
     private HuntingRepository huntingRepository;
@@ -35,7 +34,7 @@ class   HuntingServiceImpTest {
     private CompetitionRepository competitionRepository;
 
     @InjectMocks
-    private HuntingServiceImp huntingService;
+    private HuntingServiceImpl huntingService;
 
     @BeforeEach
     void setUp() {
