@@ -17,6 +17,7 @@ import java.io.Serializable;
  * update timestamp, and version. Entities in the application should implement this interface.
  *
  * @param <ID> The type of the entity's identifier.
+ * @author <a href="mailto:ouharri.outman@gmail.com">ouharri</a>
  */
 public interface _Entity<ID> extends Serializable {
 
