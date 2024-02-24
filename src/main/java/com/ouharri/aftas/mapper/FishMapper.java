@@ -1,7 +1,7 @@
-package com.ouharri.aftas.model.mapper;
+package com.ouharri.aftas.mapper;
 
 import com.ouharri.aftas.model.dto.requests.FishRequest;
-import com.ouharri.aftas.model.dto.responces.FishResponse;
+import com.ouharri.aftas.model.dto.responses.FishResponse;
 import com.ouharri.aftas.model.entities.Fish;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
