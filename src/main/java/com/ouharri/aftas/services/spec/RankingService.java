@@ -1,8 +1,8 @@
 package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests.RankingRequest;
-import com.ouharri.aftas.model.dto.responces.CompetitionResponse;
-import com.ouharri.aftas.model.dto.responces.RankingResponse;
+import com.ouharri.aftas.model.dto.responses.CompetitionResponse;
+import com.ouharri.aftas.model.dto.responses.RankingResponse;
 import com.ouharri.aftas.model.entities.Competition;
 import com.ouharri.aftas.model.entities.Hunting;
 import com.ouharri.aftas.model.entities.RankingId;
