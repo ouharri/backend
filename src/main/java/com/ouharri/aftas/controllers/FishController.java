@@ -1,7 +1,7 @@
 package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.model.dto.requests.FishRequest;
-import com.ouharri.aftas.model.dto.responces.FishResponse;
+import com.ouharri.aftas.model.dto.responses.FishResponse;
 import com.ouharri.aftas.services.spec.FishService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("api/v2/fish")
+@RequestMapping("api/v2/fishs")
 public class FishController extends _Controller<UUID, FishRequest, FishResponse, FishService> {
 
 }
