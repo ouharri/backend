@@ -13,6 +13,8 @@ import java.util.UUID;
 /**
  * Custom implementation of Spring Data's AuditorAware interface to provide the current user's ID
  * for entity auditing in the application.
+ *
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  */
 @NonNullApi
 public class ApplicationAuditAware implements AuditorAware<UUID> {
