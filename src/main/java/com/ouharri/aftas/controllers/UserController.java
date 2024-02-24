@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Controller class for handling user-related endpoints.
  *
- * @author Ouharri Outman
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 1.0
  */
 @Slf4j
