@@ -3,9 +3,29 @@ server:
 
 logging:
   level:
+    root: INFO
+    org.springframework.security: DEBUG
     org.springframework.beans.factory: ERROR
+    com.hantsylabs: INFO
+
 
 spring:
+  application:
+    name: aftas
+    admin:
+      enabled: true
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60000
+      cache-null-values: true
+  data:
+    redis:
+      database: 0
+      repositories:
+        enabled: false
+      host: localhost
+      port: 6379
   docker:
     compose:
       enabled: false
@@ -19,13 +39,13 @@ spring:
     change-log: classpath:db/db.changelog-master.yaml
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
     database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
   quartz:
     jdbc:
       initialize-schema: always
@@ -40,11 +60,33 @@ spring:
             instanceId: AUTO
           threadPool:
             threadCount: 5
+  security:
+    oauth2:
+      resourceserver:
+        opaque-token:
+          introspection-uri: https://www.googleapis.com/
+          clientId: 1089177521327-6qmtrihgfdt3gp3mc2vpadtk9mc5gete.apps.googleusercontent.com
+          clientSecret: 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
+        jwt:
+          issuer-uri: https://accounts.google.com
+          jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ouharrioutman@gmail.com
+    password: qzss yuws olau veos
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
 
 application:
   security:
     jwt:
       secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-      expiration: 86400000 # a day
+      expiration: 86400000
       refresh-token:
-        expiration: 604800000 # 7 days
+        expiration: 604800000
