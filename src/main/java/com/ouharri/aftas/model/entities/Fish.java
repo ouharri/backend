@@ -12,12 +12,13 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a type of fish that can be hunted in competitions.
  * Extends the AbstractEntity class.
  *
- * @author ouharri
+ * @author <a href="mailto:ouharrioutman@gmail.com">Ouharri Outman</a>
  * @version 2.0
  */
 @Getter
@@ -27,7 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "fish")
-public class Fish extends AbstractEntity {
+public class Fish extends AbstractEntity<UUID> {
 
     /**
      * The name of the fish.
