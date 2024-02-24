@@ -1,6 +1,7 @@
 package com.ouharri.aftas.config;
 
 import com.ouharri.aftas.repositories.UserRepository;
+import com.ouharri.aftas.security.GoogleOpaqueTokenIntrospector;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -15,17 +16,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.UUID;
 
 /**
  * Configuration class for application-related beans and settings.
+ * This class includes configurations for user details service, authentication provider,
+ * auditor awareness, authentication manager, password encoder, model mapper, and opaque token introspector.
+ *
+ * @author <a href="mailto:ouharrioutman@gmail.com">ouharri outman</a>
  */
 @Configuration
 @RequiredArgsConstructor
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class ApplicationConfig {
 
+    private final WebClient userInfoClient;
     private final UserRepository repository;
 
     /**
@@ -93,4 +101,18 @@ public class ApplicationConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
+
+    /**
+     * Creates and configures an OpaqueTokenIntrospector bean, specifically a custom
+     * implementation for Google's opaque token introspection.
+     * This is used in the security configuration to validate and introspect OAuth2 tokens.
+     *
+     * @return An instance of OpaqueTokenIntrospector.
+     */
+    @Bean
+    public OpaqueTokenIntrospector introspector() {
+        return new GoogleOpaqueTokenIntrospector(userInfoClient);
+    }
+
 }
