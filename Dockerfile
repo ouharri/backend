@@ -6,6 +6,6 @@ RUN mvn clean install -DskipTests
 
 FROM openjdk:21
 WORKDIR /app
-COPY --from=build app/target/aftas-0.0.1-SNAPSHOT.jar app.jar
+COPY --from=build app/target/aftas-0.0.2.jar app.jar
 EXPOSE 8084
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
