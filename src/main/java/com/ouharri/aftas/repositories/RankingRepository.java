@@ -22,25 +22,6 @@ import java.util.UUID;
 public interface RankingRepository extends JpaRepository<Ranking, RankingId> {
 
     /**
-     * Retrieves the ranking position and total points for a member in a specific competition.
-     *
-     * @param competitionId The ID of the competition.
-     * @param memberId      The ID of the member.
-     * @return An array containing the position and total points for the member in the competition.
-     */
-    @Query("SELECT RANK() OVER (ORDER BY r.score DESC) as position, " +
-            "(SELECT SUM(f.level.points * h.numberOfFish) " +
-            " FROM Hunting h " +
-            " JOIN h.huntingCompositeKey.fish f " +
-            " WHERE h.huntingCompositeKey.competition.id = :competitionId " +
-            " AND h.huntingCompositeKey.member.id = :memberId) as totalPoints " +
-            "FROM Ranking r " +
-            "WHERE r.id.competition.id = :competitionId " +
-            "AND r.id.member.id = :memberId")
-    Object[] getMemberRankingAndTotalPointsInCompetition(@Param("competitionId") UUID competitionId,
-                                                         @Param("memberId") UUID memberId);
-
-    /**
      * Calculates the total points for a member in a specific competition based on their hunting records.
      *
      * @param memberId      The ID of the member.
