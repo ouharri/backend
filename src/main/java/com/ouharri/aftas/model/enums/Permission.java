@@ -54,24 +54,24 @@ public enum Permission {
     MANAGER_DELETE("management:delete"),
 
     /**
-     * Permission to read player-related data.
+     * Permission to read member-related data.
      */
-    PLAYER_READ("player:read"),
+    MEMBER_READ("member:read"),
 
     /**
-     * Permission to update player-related data.
+     * Permission to update member-related data.
      */
-    PLAYER_UPDATE("player:update"),
+    MEMBER_UPDATE("member:update"),
 
     /**
-     * Permission to create player-related data.
+     * Permission to create member-related data.
      */
-    PLAYER_CREATE("player:create"),
+    MEMBER_CREATE("member:create"),
 
     /**
-     * Permission to delete player-related data.
+     * Permission to delete member-related data.
      */
-    PLAYER_DELETE("player:delete"),
+    MEMBER_DELETE("member:delete"),
 
     /**
      * Permission to read jury-related data.
