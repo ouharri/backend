@@ -1,7 +1,7 @@
 package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests.HuntingRequest;
-import com.ouharri.aftas.model.dto.responces.HuntingResponse;
+import com.ouharri.aftas.model.dto.responses.HuntingResponse;
 
 import java.util.Optional;
 import java.util.UUID;
