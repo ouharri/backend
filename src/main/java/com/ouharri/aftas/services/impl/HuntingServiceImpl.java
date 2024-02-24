@@ -3,9 +3,9 @@ package com.ouharri.aftas.services.impl;
 import com.ouharri.aftas.events.HuntingCreatedEvent;
 import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.model.dto.requests.HuntingRequest;
-import com.ouharri.aftas.model.dto.responces.HuntingResponse;
+import com.ouharri.aftas.model.dto.responses.HuntingResponse;
 import com.ouharri.aftas.model.entities.Hunting;
-import com.ouharri.aftas.model.mapper.HuntingMapper;
+import com.ouharri.aftas.mapper.HuntingMapper;
 import com.ouharri.aftas.repositories.CompetitionRepository;
 import com.ouharri.aftas.repositories.HuntingRepository;
 import com.ouharri.aftas.services.spec.HuntingService;
@@ -23,7 +23,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class HuntingServiceImp extends _ServiceImp<UUID, HuntingRequest, HuntingResponse, Hunting, HuntingRepository, HuntingMapper> implements HuntingService {
+public class HuntingServiceImpl extends _ServiceImp<UUID, HuntingRequest, HuntingResponse, Hunting, HuntingRepository, HuntingMapper> implements HuntingService {
 
     private final ApplicationEventPublisher eventPublisher;
     private final CompetitionRepository competitionRepository;
@@ -46,7 +46,7 @@ public class HuntingServiceImp extends _ServiceImp<UUID, HuntingRequest, Hunting
             throw new ResourceNotCreatedException("The Competition ended.");
 
         if (repository.existsByHuntingCompositeKey(entityToCreate.getHuntingCompositeKey()))
-            throw new ResourceNotCreatedException("The Hunting : " + entityToCreate.getHuntingCompositeKey().getFish().getName() + " for Member " + entityToCreate.getHuntingCompositeKey().getMember().getName() + " already exists.");
+            throw new ResourceNotCreatedException("The Hunting : " + entityToCreate.getHuntingCompositeKey().getFish().getName() + " for Member " + entityToCreate.getHuntingCompositeKey().getMember().getFirstname() + " already exists.");
 
         try {
             Hunting createdEntity = repository.saveAndFlush(entityToCreate);
