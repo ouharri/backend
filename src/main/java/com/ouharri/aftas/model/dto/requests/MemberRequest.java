@@ -17,10 +17,13 @@ import java.sql.Date;
  */
 public record MemberRequest(
         @NotBlank(message = "Name cannot be blank.")
-        String name,
+        String firstname,
 
         @NotBlank(message = "Family name cannot be blank.")
-        String familyName,
+        String lastname,
+
+        @NotBlank(message = "password name cannot be blank.")
+        String password,
 
         @Temporal(TemporalType.DATE)
         @NotNull(message = "Birth date cannot be null.")
