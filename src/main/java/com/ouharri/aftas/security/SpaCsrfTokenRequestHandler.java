@@ -41,9 +41,9 @@ final class SpaCsrfTokenRequestHandler extends CsrfTokenRequestAttributeHandler 
          * the header value automatically, which was obtained via a cookie containing the
          * raw CsrfToken.
          */
-        if (StringUtils.hasText(request.getHeader(csrfToken.getHeaderName()))) {
+        if (StringUtils.hasText(request.getHeader(csrfToken.getHeaderName())))
             return super.resolveCsrfTokenValue(request, csrfToken);
-        }
+        
         /*
          * In all other cases (e.g., if the request contains a request parameter), use
          * XorCsrfTokenRequestAttributeHandler to resolve the CsrfToken. This applies
