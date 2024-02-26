@@ -56,8 +56,8 @@ class HuntingServiceImplTest {
 
         MemberResponse memberResponse = new MemberResponse();
         memberResponse.setId(UUID.randomUUID());
-        memberResponse.setName("Member");
-        memberResponse.setFamilyName("Surname");
+        memberResponse.setFirstname("Member");
+        memberResponse.setLastname("Surname");
 
         CompetitionResponse competitionResponse = new CompetitionResponse();
         competitionResponse.setId(UUID.randomUUID());
