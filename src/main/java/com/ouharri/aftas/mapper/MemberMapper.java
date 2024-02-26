@@ -3,10 +3,7 @@ package com.ouharri.aftas.mapper;
 import com.ouharri.aftas.model.dto.requests.MemberRequest;
 import com.ouharri.aftas.model.dto.responses.MemberResponse;
 import com.ouharri.aftas.model.entities.Member;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.UUID;
 
@@ -20,5 +17,7 @@ import java.util.UUID;
         componentModel = MappingConstants.ComponentModel.SPRING
 )
 public interface MemberMapper extends _Mapper<UUID, MemberRequest, MemberResponse, Member> {
-
+    @Override
+    @Mapping(target = "id", ignore = true)
+    Member toEntityFromRequest(MemberRequest request);
 }
