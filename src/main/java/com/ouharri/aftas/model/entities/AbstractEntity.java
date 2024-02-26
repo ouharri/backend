@@ -1,20 +1,15 @@
 package com.ouharri.aftas.model.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.annotation.ReadOnlyProperty;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.io.Serial;
-import java.sql.Timestamp;
-import java.util.UUID;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  * Abstract base class for entities in the Aftas application.
@@ -37,6 +32,10 @@ public abstract class AbstractEntity<ID> extends AuditableEntity implements _Ent
      */
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private ID id;
 
 }
