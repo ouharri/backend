@@ -109,10 +109,11 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
         assert mapper != null;
         assert repository != null;
         Entity entityToCreate = mapper.toEntityFromRequest(request);
-        try {
-            if (repository.existsById(entityToCreate.getId()))
-                throw new ResourceNotCreatedException("Entity already exists");
 
+        if (entityToCreate.getId() != null && repository.existsById(entityToCreate.getId()))
+            throw new ResourceNotCreatedException("Entity already exists");
+
+        try {
             Entity createdEntity = repository.saveAndFlush(entityToCreate);
             return Optional.of(mapper.toResponse(createdEntity));
         } catch (Exception e) {
@@ -135,6 +136,9 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
         assert mapper != null;
         assert repository != null;
         Entity entityToUpdate = mapper.toEntityFromResponse(response);
+
+        if (entityToUpdate.getId() == null)
+            throw new ResourceNotCreatedException("The given id must not be null");
 
         if (!repository.existsById(entityToUpdate.getId()))
             throw new ResourceNotCreatedException("Entity does not exist");
@@ -181,6 +185,9 @@ public abstract class _ServiceImp<ID, Req extends _Request, Res extends _Respons
         assert mapper != null;
         assert repository != null;
         Entity entityToDelete = mapper.toEntityFromResponse(response);
+
+        if (entityToDelete.getId() == null)
+            throw new ResourceNotCreatedException("The given id must not be null");
 
         if (!repository.existsById(entityToDelete.getId()))
             throw new ResourceNotCreatedException("Entity does not exist");
