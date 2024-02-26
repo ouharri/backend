@@ -185,7 +185,7 @@ public class OauthServiceImpl implements OauthService {
                 .email(payload.getEmail())
                 .image(payload.get("picture").toString())
                 .role(Role.MEMBER)
-                .enabled(true)
+                .enabled(false)
                 .accountNonLocked(true)
                 .build();
         return repository.save(newUser);
