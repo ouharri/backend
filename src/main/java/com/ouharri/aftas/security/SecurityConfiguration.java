@@ -8,11 +8,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -73,8 +74,9 @@ public class SecurityConfiguration {
             "accept",
             "authorization",
             "content-type",
+            "X-CSRF-TOKEN",
+            "x-xsrf-token",
             "user-agent",
-            "x-csrftoken",
             "x-requested-with",
             "ngrok-skip-browser-warning",
             "Origin",
@@ -84,9 +86,11 @@ public class SecurityConfiguration {
             "Accept",
             "X-Requested-With"
     );
+    private final LogoutHandler logoutHandler;
+    private final CsrfCookieFilter csrfCookieFilter;
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final LogoutHandler logoutHandler;
+    private final SpaCsrfTokenRequestHandler spaCsrfTokenRequestHandler;
 
     /**
      * Configures the security filter chain for the application.
@@ -104,7 +108,10 @@ public class SecurityConfiguration {
                 .cors(httpSecurityCorsConfigurer ->
                         httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource())
                 )
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf ->
+                        csrf.csrfTokenRepository(csrfTokenRepository())
+                                .csrfTokenRequestHandler(spaCsrfTokenRequestHandler)
+                )
                 .exceptionHandling(customizer ->
                         customizer.authenticationEntryPoint(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)
@@ -130,6 +137,10 @@ public class SecurityConfiguration {
                         jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class
                 )
+                .addFilterAfter(
+                        csrfCookieFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                )
                 .logout(logout ->
                         logout.logoutUrl("/api/v2/auth/logout")
                                 .addLogoutHandler(logoutHandler)
@@ -141,10 +152,10 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Configures CORS (Cross-Origin Resource Sharing) settings for the application.
-     * This method defines which origins, HTTP methods, and headers are allowed in CORS requests.
+     * Creates and configures the CORS policy for the application.
+     * This policy defines the allowed origins, HTTP methods, and headers for cross-origin requests.
      *
-     * @return CorsConfigurationSource object representing the CORS configuration.
+     * @return A CorsConfigurationSource object encapsulating the CORS configuration.
      */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -160,10 +171,24 @@ public class SecurityConfiguration {
     }
 
     /**
-     * Creates URL matchers based on the whitelist.
-     * Used to define paths exempt from authentication.
+     * Creates and configures the CSRF token repository.
+     * This repository is responsible for storing and managing CSRF tokens,
+     * using cookies as the storage mechanism.
      *
-     * @return an array of AntPathRequestMatcher based on the whitelist URLs.
+     * @return A CsrfTokenRepository object for managing CSRF tokens.
+     */
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        CookieCsrfTokenRepository repository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        repository.setCookiePath("/");
+        return repository;
+    }
+
+    /**
+     * Generates an array of AntPathRequestMatcher objects based on a list of URL patterns.
+     * These matchers are used to define which paths are exempt from authentication.
+     *
+     * @return An array of AntPathRequestMatcher objects.
      */
     private AntPathRequestMatcher[] createWhiteListMatchers() {
         return WHITE_LIST_URL.stream()
