@@ -89,4 +89,11 @@ public class UserResponses extends AbstractResponse<UUID> {
      * The role of the user.
      */
     Role role;
+
+    /**
+     * Indicates whether the user's account is enabled.
+     * A disabled account cannot be used for authentication.
+     * Default value is {@code true}, meaning the account is enabled by default.
+     */
+    boolean enabled;
 }

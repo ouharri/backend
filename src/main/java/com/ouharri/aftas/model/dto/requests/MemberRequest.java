@@ -22,9 +22,6 @@ public record MemberRequest(
         @NotBlank(message = "Family name cannot be blank.")
         String lastname,
 
-        @NotBlank(message = "password name cannot be blank.")
-        String password,
-
         @Temporal(TemporalType.DATE)
         @NotNull(message = "Birth date cannot be null.")
         Date birthDate,

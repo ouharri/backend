@@ -6,8 +6,15 @@ logging:
     root: INFO
     org.springframework.security: DEBUG
     org.springframework.beans.factory: ERROR
+    org.springframework.security.web.csrf: DEBUG
     com.hantsylabs: INFO
 
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    csrf:
+      enabled: true
 
 spring:
   application:

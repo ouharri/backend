@@ -75,6 +75,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .lastname(request.lastname())
                 .email(request.email())
                 .status(UserStatus.ONLINE)
+                .enabled(true)
+                .accountNonLocked(true)
                 .password(passwordEncoder.encode(request.password()))
                 .build();
         user.setRole(role);

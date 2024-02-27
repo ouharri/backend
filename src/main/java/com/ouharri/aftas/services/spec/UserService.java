@@ -1,6 +1,8 @@
 package com.ouharri.aftas.services.spec;
 
 import com.ouharri.aftas.model.dto.requests.ChangePasswordRequest;
+import com.ouharri.aftas.model.dto.requests.ChangeRoleRequest;
+import com.ouharri.aftas.model.dto.requests.UserRequest;
 import com.ouharri.aftas.model.dto.responses.UserResponses;
 import com.ouharri.aftas.model.entities.User;
 import org.springframework.data.domain.Page;
@@ -17,7 +19,7 @@ import java.util.UUID;
  *
  * @author <a href="mailto:ouharri.outman@gmail.com">ouharri</a>
  */
-public interface UserService {
+public interface UserService extends _Service<UUID, UserRequest, UserResponses> {
 
     /**
      * Retrieves a user by their unique identifier.
@@ -27,7 +29,7 @@ public interface UserService {
      */
     Optional<User> findById(UUID id);
 
-    List<User> getAllUsers();
+    UserResponses changeRole(ChangeRoleRequest changeRoleRequest);
 
     /**
      * Retrieves the currently authenticated user.
@@ -48,14 +50,6 @@ public interface UserService {
      * @return Optional containing the user if found, otherwise empty.
      */
     User findByEmail(String email);
-
-    /**
-     * Retrieves a list of all users.
-     *
-     * @param pageable The pagination information.
-     * @return A paginated list of all users.
-     */
-    Page<UserResponses> getAllUsers(Pageable pageable);
 
     /**
      * Changes the password for the user identified by the connected user principal.

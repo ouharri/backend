@@ -1,6 +1,9 @@
 package com.ouharri.aftas.controllers;
 
 import com.ouharri.aftas.model.dto.requests.ChangePasswordRequest;
+import com.ouharri.aftas.model.dto.requests.ChangeRoleRequest;
+import com.ouharri.aftas.model.dto.requests.UserRequest;
+import com.ouharri.aftas.model.dto.responses.UserResponses;
 import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Controller class for handling user-related endpoints.
@@ -24,19 +28,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v2/users")
-public class UserController {
-    private final UserService service;
-
-    /**
-     * Retrieves a list of all users.
-     *
-     * @return ResponseEntity containing the list of users and HTTP status OK.
-     */
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = service.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
-    }
+public class UserController extends _Controller<UUID, UserRequest, UserResponses, UserService> {
 
     /**
      * Changes the password of the currently logged-in user.
@@ -52,5 +44,23 @@ public class UserController {
     ) {
         service.changePassword(request, connectedUser);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/change-role")
+    public ResponseEntity<?> changeRole(
+            @RequestBody ChangeRoleRequest changeRoleRequest
+    ) {
+        service.changeRole(changeRoleRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return ResponseEntity containing the current user's details.
+     */
+    @GetMapping("/current")
+    public ResponseEntity<UserResponses> getCurrentUser() {
+        return ResponseEntity.ok(service.getCurrentUser());
     }
 }

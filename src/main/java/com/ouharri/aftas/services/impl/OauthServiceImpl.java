@@ -13,12 +13,15 @@ import com.ouharri.aftas.model.entities.User;
 import com.ouharri.aftas.model.enums.Role;
 import com.ouharri.aftas.model.enums.UserStatus;
 import com.ouharri.aftas.repositories.UserRepository;
+import com.ouharri.aftas.services.spec.JwtService;
 import com.ouharri.aftas.services.spec.OauthService;
 import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -33,9 +36,11 @@ import java.util.Arrays;
 @Service
 @RequiredArgsConstructor
 public class OauthServiceImpl implements OauthService {
-    private final JwtServiceImpl jwtServiceImpl;
+    
+    private final JwtService jwtService;
     private final UserService userService;
     private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     private final String googleAuthRedirectUri = "http://localhost:4200/auth/Oauth/callback";
 
@@ -96,6 +101,7 @@ public class OauthServiceImpl implements OauthService {
      * @return AuthenticationResponse containing access and refresh tokens.
      * @throws IOException If an error occurs during authentication.
      */
+    @Transactional
     public AuthenticationResponse authenticateFromGoogleCode(String code) throws IOException {
         log.info("Authenticating user with Google code: {}", code);
 
@@ -184,9 +190,10 @@ public class OauthServiceImpl implements OauthService {
                 .lastname(payload.get("family_name").toString())
                 .email(payload.getEmail())
                 .image(payload.get("picture").toString())
-                .role(Role.MEMBER)
-                .enabled(false)
+                .role(Role.USER)
+                .password(passwordEncoder.encode("googlePassword"))
                 .accountNonLocked(true)
+                .enabled(true)
                 .build();
         return repository.save(newUser);
     }
@@ -198,8 +205,8 @@ public class OauthServiceImpl implements OauthService {
      * @return AuthenticationResponse containing access and refresh tokens.
      */
     private AuthenticationResponse createAuthenticationResponse(User user) {
-        String jwtToken = jwtServiceImpl.generateToken(user);
-        String refreshToken = jwtServiceImpl.generateRefreshToken(user);
+        String jwtToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
         userService.revokeAllUserTokens(user);
         userService.saveUserToken(user, jwtToken);
         log.info("Generated and saved tokens for user: {}", user.getEmail());

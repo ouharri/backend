@@ -31,10 +31,10 @@ import java.util.UUID;
 public class MemberResponse extends AbstractResponse<UUID> {
 
     @NotBlank(message = "Name cannot be blank.")
-    private String name;
+    private String firstname;
 
     @NotBlank(message = "Family name cannot be blank.")
-    private String familyName;
+    private String lastname;
 
     @Temporal(TemporalType.DATE)
     @NotNull(message = "Birth date cannot be null.")

@@ -5,6 +5,8 @@ import com.ouharri.aftas.exceptions.ResourceNotCreatedException;
 import com.ouharri.aftas.exceptions.ResourceNotFoundException;
 import com.ouharri.aftas.mapper.UserMapper;
 import com.ouharri.aftas.model.dto.requests.ChangePasswordRequest;
+import com.ouharri.aftas.model.dto.requests.ChangeRoleRequest;
+import com.ouharri.aftas.model.dto.requests.UserRequest;
 import com.ouharri.aftas.model.dto.responses.UserResponses;
 import com.ouharri.aftas.model.entities.Token;
 import com.ouharri.aftas.model.entities.User;
@@ -16,8 +18,11 @@ import com.ouharri.aftas.repositories.UserRepository;
 import com.ouharri.aftas.services.spec.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,7 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -45,26 +49,11 @@ import java.util.UUID;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
-    private final UserMapper mapper;
-    private final UserRepository repository;
+@CacheConfig(cacheNames = "Users")
+public class UserServiceImpl extends _ServiceImp<UUID, UserRequest, UserResponses, User, UserRepository, UserMapper> implements UserService {
+
     private final PasswordEncoder passwordEncoder;
     private final TokenRepository tokenRepository;
-
-    /**
-     * Retrieves a paginated list of all users.
-     *
-     * @param pageable The pagination information.
-     * @return A paginated list of all users.
-     */
-//    @Cacheable("users")
-    public Page<UserResponses> getAllUsers(Pageable pageable) {
-        return repository.findAll(pageable).map(mapper::toResponse);
-    }
-
-    public List<User> getAllUsers() {
-        return repository.findAll();
-    }
 
     public User saveUser(User user) {
         try {
@@ -72,6 +61,21 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new ResourceNotCreatedException("User not created");
         }
+    }
+
+    @Override
+    @CachePut(
+            key = "#request.id"
+    )
+    public Optional<UserResponses> update(UserResponses request) {
+        User userToUpdate = mapper.toEntityFromResponse(request);
+        User user = repository.findById(userToUpdate.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.setRole(userToUpdate.getRole());
+        user.setEnabled(userToUpdate.isEnabled());
+        return Optional.of(
+                mapper.toResponse(repository.saveAndFlush(user))
+        );
     }
 
     /**
@@ -95,6 +99,18 @@ public class UserServiceImpl implements UserService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = findByEmail(userDetails.getUsername());
         return mapper.toResponse(user);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_MANAGER')")
+    public UserResponses changeRole(ChangeRoleRequest changeRoleRequest) {
+        try {
+            User user = mapper.toEntityFromResponse(changeRoleRequest.user());
+            user = this.findByEmail(user.getEmail());
+            user.setRole(changeRoleRequest.role());
+            return mapper.toResponse(repository.save(user));
+        } catch (Exception e) {
+            throw new ResourceNotCreatedException("User Role not updated");
+        }
     }
 
 

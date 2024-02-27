@@ -10,7 +10,7 @@
   </component>
   <component name="PersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit name="Default" defaultIncludeChangeLogFile="src/main/resources/db/db.changelog-master.yaml" defaultSearchScope="Project">
+      <persistence-unit name="Default" defaultIncludeChangeLogFile="src/main/resources/db/db.changelog-master.yaml">
         <packages>
           <package value="com.ouharri.aftas" />
         </packages>

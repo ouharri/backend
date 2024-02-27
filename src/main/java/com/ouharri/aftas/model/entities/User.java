@@ -5,10 +5,7 @@ import com.ouharri.aftas.model.enums.Role;
 import com.ouharri.aftas.model.enums.UserStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +27,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @SuperBuilder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "_user")
@@ -174,16 +172,6 @@ public class User extends AbstractEntity<UUID> implements UserDetails {
     }
 
     /**
-     * Indicates whether the user is locked or unlocked.
-     *
-     * @return {@code true} if the user is not locked, {@code false} otherwise.
-     */
-    @Override
-    public boolean isAccountNonLocked() {
-        return isAccountNonLocked();
-    }
-
-    /**
      * Indicates whether the user's credentials (password) have expired.
      *
      * @return {@code true} if the user's credentials are valid (i.e., not expired),
@@ -191,16 +179,7 @@ public class User extends AbstractEntity<UUID> implements UserDetails {
      */
     @Override
     public boolean isCredentialsNonExpired() {
-        return isCredentialsNonExpired();
+        return true;
     }
 
-    /**
-     * Indicates whether the user is enabled or disabled.
-     *
-     * @return {@code true} if the user is enabled, {@code false} otherwise.
-     */
-    @Override
-    public boolean isEnabled() {
-        return isEnabled();
-    }
 }
