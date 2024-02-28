@@ -30,12 +30,12 @@ public class ApplicationAuditAware implements AuditorAware<UUID> {
                 SecurityContextHolder
                         .getContext()
                         .getAuthentication();
+        
         if (authentication == null ||
                 !authentication.isAuthenticated() ||
                 authentication instanceof AnonymousAuthenticationToken
-        ) {
+        )
             return Optional.empty();
-        }
 
         User userPrincipal = (User) authentication.getPrincipal();
         return Optional.of(userPrincipal.getId());
