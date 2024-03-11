@@ -38,9 +38,9 @@ spring:
       enabled: true
       file: compose.yaml
   datasource:
-    url: jdbc:postgresql://localhost:5432/aftas
-    username: postgres
-    password: Youcode@2023
+    url: ${APP_DB_URL}
+    username: ${APP_DB_USER}
+    password: ${APP_DB_PASS}
     driver-class-name: org.postgresql.Driver
   liquibase:
     change-log: classpath:db/db.changelog-master.yaml
@@ -72,16 +72,16 @@ spring:
       resourceserver:
         opaque-token:
           introspection-uri: https://www.googleapis.com/
-          clientId: 1089177521327-6qmtrihgfdt3gp3mc2vpadtk9mc5gete.apps.googleusercontent.com
-          clientSecret: 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
+          clientId: ${GOOGLE_CLIENT_ID}
+          clientSecret: ${GOOGLE_CLIENT_SECRET}
         jwt:
           issuer-uri: https://accounts.google.com
           jwk-set-uri: https://www.googleapis.com/oauth2/v3/certs
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ouharrioutman@gmail.com
-    password: qzss yuws olau veos
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -93,7 +93,7 @@ spring:
 application:
   security:
     jwt:
-      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      secret-key: ${JWT_SECRET_KEY}
       expiration: 86400000
       refresh-token:
         expiration: 604800000

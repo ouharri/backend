@@ -4,9 +4,9 @@ services:
     image: 'postgres:latest'
     container_name: database
     environment:
-      - POSTGRES_DB=aftas
-      - POSTGRES_PASSWORD=Youcode@2023
-      - POSTGRES_USER=postgres
+      - POSTGRES_DB=${APP_DB_NAME}
+      - POSTGRES_PASSWORD=${APP_DB_PASS}
+      - POSTGRES_USER=${APP_DB_USER}
       - PGDATA=/data/postgres
     restart: always
     healthcheck:
